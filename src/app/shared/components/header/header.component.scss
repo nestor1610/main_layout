@@ -1,0 +1,25 @@
+header {
+    height: 60px;
+    background-color: var(--background);
+    vertical-align: middle;
+}
+
+.tooltip-style {
+    font-size: 0.8rem;
+    // background: #475F7B;
+    background: var(--secondary);
+}
+
+@media screen and (max-width: 992px) {
+    header {
+        height: 160px;
+        vertical-align: middle;
+    }
+}
+
+.matcard {
+    margin-top: 4rem;
+    max-width: 200px;
+    z-index: 300 !important;
+    
+}

@@ -1,0 +1,275 @@
+
+.truncate {
+  width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 760px) {
+
+  .myResposiveTable{
+    border: none;
+    display: block;
+    width: 100% !important
+  }
+  .myResposiveTable > div {
+    display: inline-block;
+    width: 70%;
+    overflow: scroll;
+  }
+  .myResposiveTableHead{
+    display: none;
+  }
+
+  .reflow{
+    display: inline-block;
+    width: 30% !important;
+    margin-bottom: 10px;
+  }
+
+  .reflowImg{
+    display: block;
+    width: 30% !important;
+    margin-bottom: 10px;
+    /* position: absolute; */
+  }
+
+  .myResposiveTableRow{
+    padding: 10px;
+    display: block;
+  }
+
+  /* .table-wrapper-scroll-y {
+    overflow: hidden !important;
+  } */
+
+ }
+
+ .reflowImg{
+  display: none;
+ }
+
+.columnConf{
+    background: #fff;
+    padding: 15px;
+    height: 600px;
+    overflow: scroll;
+}
+
+.columnConf > ul {
+    list-style: none;
+    padding: 0px;
+    margin-bottom: 0px;
+}
+
+.columnConf > ul > li{
+    padding: 8px;
+    background: aliceblue;
+    margin: 2px;
+    cursor: move;
+}
+
+.checkboxList{
+    display: inline-block;
+}
+/* table */
+
+h2 {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.table-bordered {
+  border: 1px solid #ddd !important;
+}
+
+table caption {
+	padding: .5em 0;
+}
+
+@media screen and (max-width: 767px) {
+  table caption {
+    display: none;
+  }
+}
+
+table > thead{
+  background: #ebedf0;
+}
+
+.p {
+  text-align: center;
+  padding-top: 140px;
+  font-size: 14px;
+}
+.myTable{
+  background: #fff;
+  width: 100%;
+}
+
+.table-wrapper-scroll-y {
+  display: block;
+  height: auto;
+  max-height: 620px;
+  overflow: scroll;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+tbody > tr:hover {
+  background:  #b3ddf5 !important;
+
+}
+
+.myScroll > tr > td > button {
+  height: 34px;
+}
+
+.inputTable{
+  border: none;
+  background: none;
+  border-bottom: 1px solid #c3c3c3;
+  width: 100%;
+}
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td{
+  padding: 1px !important;
+}
+.table > tbody > tr > td > p {
+  margin-left: 5px !important;
+  margin-top: 4px !important;
+}
+
+
+.o_kanban_view.o_kanban_ungrouped {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+}
+
+.o_kanban_view.o_kanban_ungrouped {
+  -webkit-flex-flow: row wrap;
+  flex-flow: row wrap;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  padding: 8px 8px;
+}
+.o_kanban_view {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  align-content: stretch;
+  overflow-x: visible;
+}
+
+
+.o_kanban_view.o_kanban_ungrouped .o_kanban_record {
+  width: 350px;
+}
+.o_kanban_view.o_kanban_ungrouped .o_kanban_record {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 1 auto;
+  flex: 1 1 auto;
+  width: 300px;
+  margin: 4px 8px;
+}
+.o_kanban_view .oe_kanban_card.oe_kanban_global_click, .o_kanban_view .oe_kanban_card.oe_kanban_global_click_edit, .o_kanban_view .o_kanban_record.oe_kanban_global_click, .o_kanban_view .o_kanban_record.oe_kanban_global_click_edit {
+  cursor: pointer;
+}
+
+.o_kanban_view .o_kanban_record.o_kanban_record_has_image_fill {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+}
+.o_kanban_view .o_kanban_record {
+  position: relative;
+  display: inline-block;
+  border-color: #ced4da;
+  min-width: 150px;
+  margin: 0 0 -1px;
+}
+.o_kanban_view .o_kanban_record, .o_kanban_view .o_kanban_quick_create {
+  padding: 8px 8px;
+  border: 1px solid #dee2e6;
+  background-color: white;
+}
+
+.o_kanban_view .o_kanban_record.o_kanban_record_has_image_fill .o_kanban_image_fill_left {
+  position: relative;
+  margin: -8px -8px;
+  margin-right: 16px;
+  flex: 1 0 95px;
+  min-height: 95px;
+  background-size: cover;
+  background-position: center;
+}
+
+.o_kanban_view .o_kanban_record.o_kanban_record_has_image_fill .o_kanban_image + div {
+  padding-left: 0;
+}
+
+.o_kanban_view .oe_kanban_card .o_kanban_image + div, .o_kanban_view .o_kanban_record .o_kanban_image + div {
+  padding-left: 72px;
+}
+.o_kanban_view .oe_kanban_card .oe_kanban_details, .o_kanban_view .o_kanban_record .oe_kanban_details {
+  width: 100%;
+}
+
+.o_kanban_view .o_kanban_record .o_kanban_record_title {
+  color: #212529;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.o_kanban_view .oe_kanban_card .oe_kanban_details ul, .o_kanban_view .o_kanban_record .oe_kanban_details ul {
+  margin-bottom: 2.5px;
+  padding-left: 0;
+  list-style: none;
+  font-size: 11px;
+}
+
+.o_kanban_view .oe_kanban_card .oe_kanban_details ul li, .o_kanban_view .o_kanban_record .oe_kanban_details ul li {
+  margin-bottom: 2px;
+}
+
+img.o_kanban_image_inner_pic {
+  width: 100px;
+  height: 100px;
+}
+.o_text_overflow {
+  display: inline-block;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: top;
+}
+.o_kanban_view .o_kanban_record:hover,
+ .o_kanban_view .o_kanban_record:hover,
+  .o_kanban_view .o_kanban_quick_create:hover,
+   .o_kanban_view .o_kanban_quick_create:hover,
+.o_kanban_view .o_kanban_record:focus,
+ .o_kanban_view .o_kanban_record:focus-within,
+  .o_kanban_view .o_kanban_quick_create:focus,
+   .o_kanban_view .o_kanban_quick_create:focus-within {
+  -webkit-box-shadow: 1px 1px 1px 0px #6c757d;
+  -moz-box-shadow: 1px 1px 1px 0px #6c757d;
+  box-shadow: 1px 1px 1px 0px #6c757d;
+  z-index: 1;
+  outline: none;
+}
+
+.clickable{
+  cursor: pointer;
+}
+
+.primary{
+  background:#009999;
+}
+
+.boton{
+  border-radius: 0px;
+  color: #FFFF;
+}

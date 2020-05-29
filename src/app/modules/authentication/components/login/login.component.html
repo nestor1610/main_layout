@@ -1,0 +1,71 @@
+<div id="login-container" class="container-fluid d-flex justify-content-center align-items-center">
+    <div class="login-box col-lg-6 col-11 d-lg-flex justify-content-lg-center">
+        <!-- LEFT SIDE LOGIN CONTAINER -->
+        <div class="login-box__left col-lg-6 col-12 py-lg-4 px-lg-4 py-2 px-2">
+            <h1 class="h2 text-center mb-2">Inicio de Sesión</h1>
+            <!-- <p class="h6 text-center mb-3">Con tus Redes Sociales</p> -->
+
+            <!-- DIV DE LOS BOTONES SOCIALES -->
+            <!-- <div class="col-12 d-lg-flex justify-content-between p-0"> -->
+                <!-- Butón Google -->
+                <!-- <div class="col-lg-6 col-12 p-0 mr-2 mb-lg-0 mb-3">
+                    <button class="btn btn-outline-secondary btn-block p-1">
+                        <i class="fab fa-google"></i> Google
+                    </button>
+                </div> -->
+
+                <!-- Botón Facebook  -->
+                <!-- <div class="col-lg-6 col-12 p-0">
+                    <button class="btn btn-outline-secondary btn-block p-1">
+                        <i class="fab fa-facebook-square"></i> Facebook
+                    </button>
+                </div> -->
+            <!-- </div> -->
+
+            <hr class="hr-text text-center small" data-content="Inicia sesión con tu correo electrónico" />
+            <form action="">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1"><i class="fas fa-at"></i></span>
+                    </div>
+                    <input [(ngModel)]="workspace" [ngModelOptions]="{standalone: true}" (change)="validateDns()" [textMask]="{mask: mask, guide:false}" type="text" class="form-control" placeholder="Espacio de trabajo" aria-label="workspace"
+                        aria-describedby="basic-addon1" required>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1"><i class="far fa-envelope"></i></span>
+                    </div>
+                    <input [(ngModel)]="user.email" [ngModelOptions]="{standalone: true}" type="email" class="form-control" placeholder="Correo electrónico" aria-label="email"
+                        aria-describedby="basic-addon1" required>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1"><i class="fas fa-lock"></i></span>
+                    </div>
+                    <input [(ngModel)]="user.password" [ngModelOptions]="{standalone: true}" type="password" class="form-control" placeholder="Contraseña" aria-label="password"
+                        aria-describedby="basic-addon1" required>
+                </div>
+                <!-- DIV DE RECORDAR CREDENCIALES Y OLVIDE PASSWORD -->
+                <div class="col-12 d-lg-flex justify-content-lg-between p-0">
+                    <div class="col-lg-6 col-12 p-0">
+                        <div class="form-check">
+                            <input [(ngModel)]="remember" [ngModelOptions]="{standalone: true}" type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label small mb-3" for="exampleCheck1">Recordar mis credenciales</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-12">
+                        <a class="text-decoration-none small float-right p-0 text-right mb-3" routerLink="/authentication/forgotpassword">No recuerdo mi contraseña</a>
+                    </div>
+                </div>
+                <button [disabled]="!workspace_selected" (click)="login()" type="submit" class="btn btn-primary btn-block mt-lg-0 mt-3">INICIAR SESION <i class="fas fa-sign-in-alt"></i></button>
+            </form>
+            <hr>
+            <p class="text-center small">¿Aún no tienes una cuenta?<span><a class="text-decoration-none" routerLink="/authentication/register"> Regístrate</a></span></p>
+        </div>
+
+        <!-- RIGHT SIDE LOGIN CONTAINER -->
+        <div class="login-box__right col-lg-6">
+            <img src="../../../../../assets/img/svg/undraw_Hello_qnas.svg" alt="Imagen de Registro" class="right-img d-none d-lg-block">
+        </div>
+    </div>
+</div>

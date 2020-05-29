@@ -1,0 +1,49 @@
+
+// COLORES PERSONALIZADOS PARA BOOTSTRAP //
+
+$theme-colors: (
+    "primary": #5A8DEE,
+    "secondary": #475F7B,
+    "succes": #39DA8A,
+    "danger": #FF5B5C ,
+    "warning": #FDAC41 ,
+    "info": #00CFDD ,
+    "background": #f2f4f2,
+  );
+
+@import "node_modules/bootstrap/scss/bootstrap";
+
+
+//Paleta personalizada, generada con a través de:
+//http://mcg.mbitson.com/
+
+@import "./my-colors"; //PALETA DE COLORES MATERIAL DESIGN
+@import '~@angular/material/theming'; // THEMA PRINCIPAL DE MD
+
+// @import './my-colors';
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+
+// $banana-web-accent: mat-palette($mat-gray, A200, A100, A400);
+
+$banana-web-primary: mat-palette($md-bnnprimary);
+$banana-web-accent: mat-palette($mat-gray, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$banana-web-warn: mat-palette($md-bnndanger);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$banana-web-theme: mat-light-theme($banana-web-primary, $banana-web-accent, $banana-web-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($banana-web-theme);
+
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

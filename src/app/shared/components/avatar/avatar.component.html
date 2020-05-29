@@ -1,0 +1,61 @@
+<!-- Espacio del avatar en el header -->
+<div class="row d-flex mt-1">
+  <div class="headeravatar avatarid">
+    <p class="mr-2 mt-2 mb-0 headeravatar__text font-weight-bold">{{contact_name}}</p>
+    <p class="headeravatar__text"><small>{{contact_charge}}</small></p>
+  </div>
+  <img [matMenuTriggerFor]="menu" [src]="image_name" alt="Avatar" class="headeravatar__img mr-5">
+</div>
+<!-- Caja del perfil del usuario -->
+<mat-menu #menu="matMenu">
+  <!-- imgContainer -->
+  <section class="perfilContainer">
+    <mat-toolbar class="photo d-flex flex-column">
+      <img class="photo__img" [src]="image_name" alt="Avatar">
+      <p class="text-center mb-0 mt-1">{{contact_name}}</p>
+      <p class="text-center"><small>{{contact_charge}}</small></p>
+    </mat-toolbar>
+    <mat-divider></mat-divider>
+    <!-- //********************************** -->
+    <div class="example-button-row">
+      <div class="example-flex-container d-flex justify-content-around">
+        <div class="example-button-container">
+          <button mat-mini-fab color="accent">
+            <mat-icon (click)="changePassword()" matTooltip="Cambiar contraseña" matTooltipClass="tooltip-style">
+              vpn_key</mat-icon>
+          </button>
+        </div>
+        <div class="example-button-container">
+          <button mat-mini-fab color="accent">
+            <mat-icon matTooltip="Modificar perfil" matTooltipClass="tooltip-style">settings</mat-icon>
+          </button>
+        </div>
+        <div class="example-button-container">
+          <button mat-mini-fab color="accent">
+            <mat-icon (click)="lockSesion()" matTooltip="Bloquear sessión" matTooltipClass="tooltip-style">lock
+            </mat-icon>
+          </button>
+        </div>
+        <div class="example-button-container">
+          <button mat-mini-fab color="warn">
+            <mat-icon (click)="logout()" matTooltip="Cerrar sesión" matTooltipClass="tooltip-style">exit_to_app
+            </mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- //********************************** -->
+    <hr>
+    <button *ngIf="multipleOrganizations" (click)="emitOpenOrganizationModal()" class="mat-lgbutton" mat-flat-button>Cambiar organización</button>
+    <hr>
+    <div class="datasession">
+      <p class="font-weight-bold">Mas información</p>
+      <p><span class="font-weight-bold">Browser</span>: {{dataSession.browser}} - {{dataSession.browserVer}}</p>
+      <p><span class="font-weight-bold">Plataforma Browser</span>: {{dataSession.plataformBrowser}}</p>
+      <p><span class="font-weight-bold">Acepta Cookies</span>: <span *ngIf="dataSession.browserCookie">Si</span>
+        <span *ngIf="!dataSession.browserCookie">No</span></p>
+      <p><span class="font-weight-bold">Protocolo</span>: {{dataSession.locationProtocol}}</p>
+      <p><span class="font-weight-bold">Pantalla</span>: {{dataSession.screenWidth}}x{{dataSession.screenHeight}}</p>
+    </div>
+  </section>
+</mat-menu>

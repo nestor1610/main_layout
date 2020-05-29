@@ -1,0 +1,13 @@
+mat-sidenav-container {
+    height: calc(100% - 100px);
+    display: flex;
+}
+mat-sidenav {
+    // width: 260px;
+    background-color: rgb(200, 200, 200)
+}
+
+mat-sidenav-content {
+    background-color: darkgray;
+    flex: 1;
+}

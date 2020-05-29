@@ -1,0 +1,161 @@
+<section class="content-header">
+  <div class="control-sections">
+    <div class="col-md-8">
+      <div class="row">
+        <!-- Si el tipo de vista es 2 o view_force_create es verdadero, este elemento sera visible -->
+        <!-- Boton nuevo -->
+        <div class="col-xs-6 col-md-3 col-lg-2 divBtn marginDiv" *ngIf="typeView == 2 || view_force_create" >
+          <button [disabled]="!createBtnDisabled" mat-raised-button type="submit" title="{{ lbl.tags('nuevo',true) }}" class="btn btn-success btn-flat " (click)="newly()">
+              <i class="fa fa-plus"></i>  {{ lbl.tags('nuevo',true) }}
+          </button>
+        </div>
+        <!-- Fin de boton nuevo -->
+        <!-- Si why_migration es verdadero, este elemento sera visible -->
+        <!-- Componente de migracion -->
+        <!-- <div class="col-xs-6 col-md-3 col-lg-2 divBtn marginDiv" *ngIf="why_migration" > -->
+          <!-- <app-migration [table]="table" ></app-migration> -->
+        <!-- </div> -->
+        <!-- Fin de componente de migracion -->
+        <!-- Si el tipo de vista es 1 -->
+        <!-- Boton guardar/Nuevo -->
+        <div *ngIf="typeView == 1" class="col-md-3 col-lg-2  col-xs-6 divBtn marginDiv marginDiv">
+          <button mat-raised-button type="submit" title="{{ lbl.tags('guardar',true) }}" class="btn btn-success btn-flat" (click)="create()">
+            <i class="fa fa-save"></i>  {{ lbl.tags('guardar',true) }}
+          </button>
+        </div>
+        <!-- Fin de boton guardar -->
+        <!-- Si el tipo de vista es 3 -->
+        <!-- Boton guardar/Actualizar -->
+        <div *ngIf="typeView == 3" class="col-md-3 col-lg-2  col-xs-6 divBtn marginDiv">
+          <button mat-raised-button type="submit" title="{{ lbl.tags('guardar',true) }}" class="btn btn-success btn-flat" (click)="update()" >
+            <i class="fa fa-save"></i>  {{ lbl.tags('guardar',true) }}
+          </button>
+        </div>
+        <!-- Fin de boton guardar/Actualizar -->
+        <!-- Si tipo de vista es 4 -->
+        <!-- Boton editar -->
+        <div *ngIf="typeView == 5" class="col-md-3 col-lg-2  col-xs-6 divBtn marginDiv">
+          <button [disabled]="!editBtnDisabled"  mat-raised-button type="submit" title="{{ lbl.tags('editar',true) }}" class="btn btn-success btn-flat " (click)="edit()" >
+              <i class="fa fa-pencil"></i>  {{ lbl.tags('editar',true) }}
+          </button>
+        </div>
+        <!-- Fin de boton editar -->
+        <!-- Si el tipo de vista es 3 o 5 -->
+        <!-- Boton eliminar -->
+        <div *ngIf="typeView == 3 || typeView == 5" class="col-md-3 col-lg-2  col-xs-6 divBtn marginDiv">
+          <button [disabled]="!deleteBtnDisabled"  mat-raised-button type="submit" title="{{ lbl.tags('eliminar',true) }}" class="btn btn-danger btn-flat " (click)="delete()" >
+            <i class="fa fa-trash"></i>  {{ lbl.tags('eliminar',true) }}
+          </button>
+        </div>
+        <!-- Fin de boton eliminar -->
+        <!-- Si el tipo de vista es 3 o 5 y haveArchived es verdadero -->
+        <!-- Boton archivar/desarchivar -->
+        <div *ngIf="(typeView == 3 || typeView == 5) && haveArchived" class="col-md-3 col-lg-2  col-xs-6 divBtn marginDiv">
+          <button
+            *ngIf="archivedReference == 1"
+            (click)="archivate(0)"
+            mat-raised-button class="btn btn-warning btn-flat"
+          >
+            <i class="fa fa-folder"></i> {{ lbl.tags('desarchivado',true) }}
+          </button>
+
+          <button
+            *ngIf="archivedReference == 0"
+            (click)="archivate(1)"
+            mat-raised-button
+            class="btn btn-info btn-flat"
+          >
+            <i class="fa fa-folder-open"></i> {{ lbl.tags('archivado',true) }}
+          </button>
+        </div>
+        <!-- Fin de boton archivar/desarchivar -->
+        <!-- Si el tipo de vista es 3 -->
+        <!-- Boton descartar cambios -->
+        <div *ngIf="typeView == 3" class="col-md-3 col-lg-2  col-xs-6 divBtn marginDiv">
+          <button  mat-raised-button type="submit" title=" {{ lbl.tags('descartar',true) }}" class="btn  btn-flat " (click)="discard()" >
+            <i class="fa fa-times"></i> {{ lbl.tags('descartar',true) }}
+          </button>
+        </div>
+        <!-- Fin de boton descartar cambios -->
+        <!-- Si el tipo de vista es 1 y haveCancel es verdadero -->
+        <!-- Boton cancerlar -->
+        <div  *ngIf="typeView == 1 && haveCancel" class="col-md-3 col-lg-2  col-xs-6 divBtn marginDiv">
+          <button mat-raised-button type="submit" title="{{ lbl.tags('cancelar',true) }}" class="btn  btn-flat" (click)="cancel()" >
+            <i class="fa fa-times"></i>  {{ lbl.tags('cancelar',true) }}
+          </button>
+        </div>
+        <!-- Fin del boton cancerlar -->
+        <!-- Si haveBack es verdadero -->
+        <!-- Boton atras -->
+        <div *ngIf="haveBack" class="col-md-3 col-lg-2  col-xs-6 divBtn marginDiv">
+          <button mat-raised-button type="submit" title="{{ lbl.tags('atras',true) }}" class="btn btn-info  btn-flat" (click)="back()" >
+            <i class="fa fa-sign-out"></i>  {{ lbl.tags('atras',true) }}
+          </button>
+        </div>
+        <!-- Fin del boton atras -->
+      </div>
+      <div *ngIf="functionButtons.length > 0" class="row">
+        <div class="col-md-3 col-lg-2  col-xs-6 divBtn marginDiv" *ngFor="let item of functionButtons">
+            <!-- [ngClass]="{'btn btn-flat': item.class == '', 'btn btn-flat ' + item.class: item.class != ''}" -->
+          <button (click)="emitFunctionButton(item)" *ngIf="item.show" [disabled]="item.disabled" type="submit"
+            [title]="lbl.tags(item.name)" class="{{ item.class != '' ? 'btn btn-flat ' + item.class : 'btn btn-flat'}}"
+          >
+            <i [class]="item.icon"></i> {{ lbl.tags(item.name) }}
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="row">
+        <div class="col-md-12 marginDiv">
+          <!-- Si haveFilterInput es verdadero -->
+          <!-- Barra de busqueda y botones -->
+          <div *ngIf="haveFilterInput" class="input-group no-border">
+            <input type="text" [(ngModel)]="keyword" [ngModelOptions]="{standalone: true}" (keyup.enter)="search()"  value="" class="form-control" placeholder="{{ lbl.tags('buscar',true) }}" >
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-warning btn-flat" (click)="search()" [title]="lbl.tags('buscar',true)">{{ lbl.tags('buscar',true) }}</button>
+              <button type="button" class="btn btn-danger btn-flat" (click)="searchByOtherFilter('all')" [title]="lbl.tags('limpiar',true)">{{ lbl.tags('limpiar',true) }}</button>
+              <button type="button" class="btn btn-info btn-flat" (click)="searchByOtherFilter('all')" [title]="lbl.tags('todo',true)">{{ lbl.tags('todo',true) }}</button>
+            </span>
+          </div>
+          <!-- Fin barra de busqueda y botones -->
+        </div>
+      </div>
+      <div class="row">
+        <!-- Si haveFilter es verdadero -->
+        <!-- Elemento filtro de lista ordenada -->
+        <div class="col-md-6 col-xs-6 marginDiv"*ngIf="haveFilter">
+          <div class="dropdown">
+            <button class="btn btn-flat  dropdown-toggle dropdownBtn" type="button" data-toggle="dropdown">
+                {{ lbl.tags(current_filter) }}
+            <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+              <li *ngFor="let filter of otherFilter" ><a (click)="searchByOtherFilter(filter.value, filter.name)" >{{ lbl.tags(filter.name) }}</a></li>
+            </ul>
+          </div>
+        </div>
+        <!-- Fin elemento filtro de lista ordenada -->
+        <!-- Si haveOptions es verdadero -->
+        <div class="col-md-12 col-xs-6 marginDiv" *ngIf="haveOptions">
+          <div class="pull-right">
+          </div>
+        </div>
+        <!-- Si otherControls es verdadero -->
+        <!-- Lista o tarjetas -->
+        <div class="col-md-6 col-xs-6" *ngIf="otherControls">
+          <div class="btn-group pull-right" >
+            <button [title]="lbl.tags('imagen', true)" type="button" class="btn btn-default btn-flat" (click)="changeList(true)" >
+              <i class="fa fa-lg fa-th-large"></i>
+            </button>
+            <button [title]="lbl.tags('lista', true)" type="button" class="btn  btn-default btn-flat" (click)="changeList(false)"  >
+              <i class="fa fa-list"></i>
+            </button>
+
+            <app-internationalization-tag [table]="table" [auxTables]="auxTables"></app-internationalization-tag>
+          </div>
+        </div>
+        <!-- Fin de Lista o tarjetas -->
+      </div>
+    </div>
+  </div>
+</section>

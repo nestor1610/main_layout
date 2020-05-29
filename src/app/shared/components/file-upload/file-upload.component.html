@@ -1,0 +1,36 @@
+<div
+  class="upload-preview"
+  [class.active]="hasPreview"
+  [class.image]="type == 'image'">
+  <div class="logo-wrapper" (click)="openFileDialog()">
+    <i [attr.class]="fileIcon" [class.hide]="hasPreview"></i>
+    <img #pictureImg [class.hide]="!hasPreview">
+  </div>
+  <div class="content-wrapper">
+    <div class="name">
+      {{ (value) ? value.name : 'No se ha seleccionado archivo' }}
+    </div>
+    <div class="size">
+      {{ (value) ? (value.size/1024) : '-' }} kb
+    </div>
+    <div class="actions">
+      <button 
+        type="button"
+        class="btn btn-primary btn-sm"
+        (click)="openFileDialog()">
+        <i class="fa fa-upload"></i>
+      </button>
+      <button 
+        type="button"
+        class="btn btn-light btn-sm">
+        <i class="fa fa-repeat"></i>
+      </button>
+    </div>
+  </div>
+  <input
+    name="picture"
+    type="file"
+    (change)="onFileChange($event)"
+    [accept]="fileTypes"
+    #fileInput>
+</div>

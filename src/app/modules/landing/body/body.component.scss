@@ -1,0 +1,29 @@
+.img {
+    width: 100%;
+}
+
+#cero {
+    padding: 2rem 5rem;
+}
+
+#uno {
+    background-color: #d9d8fa;
+    padding: 2rem 5rem;
+}
+
+#dos {
+    background-color: #dbd467;
+    padding: 2rem 5rem;
+}
+
+#tres {
+    background-color: #f4f4f4;
+    padding: 2rem 5rem;
+}
+
+@media only screen and (max-width: 768px) {
+    #cero, #uno, #dos, #tres {
+        padding: 2rem .25rem;
+    }
+
+}

@@ -1,0 +1,725 @@
+<button mat-raised-button type="submit" class="btn btn-flat btn-info btnMigration" (click)="openModal()">
+  <i class="fa  fa-upload"></i> {{ lbl.tags('importar',true) }}
+</button>
+
+
+
+<div class="modal " tabindex="-1" role="dialog" id="migrationModal{{modalUniqueID}}">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" (click)="closeModal()" aria-label="Close"><span
+            aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Modal title</h4>
+      </div>
+      <div class="modal-body ">
+        <div class="row">
+          <div class=" col-md-8">
+            <div class="">
+              <div class="row">
+                <div class="col-xs-12">
+                  <h2 class="page-header">
+                    <i class="fa fa-cogs"></i> {{ lbl.tags('configuracion',true) }}
+                  </h2>
+                </div>
+                <!-- /.col -->
+                <div class="col-md-12 controlStep">
+                  <button type="button" [disabled]="step == 0" class=" btn btn-flat  btn-lg  btn-info"
+                    (click)="backStep()">{{ lbl.tags('anterior',true) }}</button>
+                  <button type="button" *ngIf="step < totalSteps" id="next" class="btn btn-flat btn-lg  btn-success"
+                    (click)="nextStep()">{{ lbl.tags('siguiente',true) }}</button>
+                  <button type="button" class="btn btn-flat btn-lg" id="next" *ngIf="step == totalSteps"
+                    (click)="updatePayroll()">{{ lbl.tags('enviar',true) }}</button>
+                </div>
+
+
+
+                <div class="fadeIn animated" [hidden]="!(step == 0)">
+
+
+                  <div class="col-md-12 form-group ">
+                    <label><span>Type file</span></label>
+                    <select id="type" name="type" class="form-control" [(ngModel)]="type"
+                      [ngModelOptions]="{standalone: true}">
+                      <option [ngValue]="1">
+                        XLS
+                      </option>
+                      <option [ngValue]="2">
+                        CSV
+                      </option>
+                    </select>
+                  </div>
+
+                  <div id="file" class="col-md-12 form-group ">
+
+                    <div *ngIf="type==1">
+                      <label><span>select xls file</span></label>
+                      <input type="file" (change)="xlsFile($event)" multiple="false" />
+                    </div>
+                    <div *ngIf="type==2">
+                      <label><span>select csv file</span></label>
+                      <input type="file" (change)="convertFile($event)" multiple="false" />
+                    </div>
+
+                  </div>
+                </div>
+
+
+                <div class="fadeIn animated" *ngIf="step == 1">
+
+                  <div class="col-xs-12">
+                    <h3 class="page-header"> {{ lbl.tags('configuracion_de_planilla',true) }}
+                    </h3>
+                  </div>
+                  <div class="col-md-11 form-group ">
+
+
+                    <app-mat-select #plantilla [options]="payrollList" [placeholder]="lbl.tags('planilla', true)"
+                      [(ngModel)]="payrollId" [ngModelOptions]="{standalone: true}" (onSelect)="milog()">
+                    </app-mat-select>
+                    <small id="ppayrollHelp" *ngIf="payrollId==null" class="text-danger">
+                      {{ lbl.tags('seleccione_una_plantilla', true) }}
+                    </small>
+
+                  </div>
+
+
+
+                  <div class="col-md-1 form-group">
+                    <!-- <button type="button" class="btn btn-success" *ngIf="payrollId" (click)="deletePayroll()" > {{ lbl.tags('eliminar plantilla',true) }}</button> -->
+                    <a class="icon-item remove-ico" (click)="deletePayroll()" *ngIf="payrollId" style="top:8px;"> <i
+                        class=" fa fa-trash"></i> </a>
+
+                  </div>
+
+                  <div class="col-xs-12">
+                    <h3 class="page-header"> {{ lbl.tags('nueva_planilla',true) }}
+                    </h3>
+                  </div>
+
+
+                  <div class="col-md-12 form-group">
+
+                    <strong>{{lbl.tags('nombre_planilla', true)}}</strong>
+                    <input id="name" name="name" type="text" [(ngModel)]="payrollname"
+                      [ngModelOptions]="{standalone: true}" class="form-control">
+                    <small id="passwordHelp" *ngIf=" 1==1" class="text-danger">
+                      {{ lbl.tags('nombre_invalido', true) }}
+                    </small>
+                  </div>
+
+                  <div class="col-md-12 form-group">
+                    <button type="button" class="btn btn-success"
+                      *ngIf="notpayroll || payrollList.length == 0 || payrollList == null" (click)="scriptsPayroll()">
+                      {{ lbl.tags('generar_planilla_vacia',true) }}</button>
+                  </div>
+
+
+                </div>
+
+                <div class="fadeIn animated" *ngIf="step == 2">
+
+                  <div class="col-md-12 form-group " *ngIf="false">
+                    <div class="js-truncate-form-group">
+                      <label class="form-control-label">
+                        Eliminar todas las <span class="js-entity-name">Registros</span> antes de importar
+                      </label>
+
+                      <div class="input-group">
+                        <span class="ps-switch">
+                          <!-- <input id="truncate_0" class="ps-switch" name="truncate" [(ngModel)]="truncate" [ngModelOptions]="{standalone: true}" value="0" checked="1" type="radio"> -->
+                          <!-- <label for="truncate_0" style="margin-right: 50px;" >No</label> -->
+                          <input id="truncate_1" class="ps-switch" name="truncate" [(ngModel)]="truncate"
+                            [ngModelOptions]="{standalone: true}" value="1" type="checkbox">
+                          <label for="truncate_1">Sí</label><span class="slide-button"></span>
+
+                          <!-- <input type="checkbox" [(ngModel)]="taxonomyOptions.tax_logic.category" name="term_assing[category]" checked="1" title="Asignar un entrada a la taxonomía." value="1"> -->
+                        </span>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div class="col-md-12 form-group">
+                    <div class="col-md-12 js-force-ids-form-group">
+
+                      <div class="col-xs-12">
+                        <h3 class="page-header"> {{ lbl.tags('tipo_de_importacion',true) }}
+                        </h3>
+                      </div>
+
+                      <!-- <label class="form-control-label ">
+                                Tipo de importacion
+                                <span class="help-box" data-toggle="popover" >
+                                </span>
+                              </label> -->
+
+
+                      <div class="input-group">
+                        <span class="ps-switch">
+                          <input id="typeImport_0" class="ps-switch" [(ngModel)]="typeImport"
+                            [ngModelOptions]="{standalone: true}" name="typeImport" value="0" checked="" type="radio">
+                          <label for="typeImport_0" style="margin-right: 50px;">{{ lbl.tags('registros_nuevos',true) }}
+                          </label>
+
+                          <input id="typeImport_1" class="ps-switch" [(ngModel)]="typeImport"
+                            [ngModelOptions]="{standalone: true}" name="typeImport" value="1" type="radio">
+                          <label for="typeImport_1">{{ lbl.tags('registros_existentes',true) }} </label><span
+                            class="slide-button"></span></span></div>
+
+                    </div>
+                  </div>
+
+                  <div class="col-md-12 form-group" [hidden]="!(typeImport > 0)">
+                    <div class="col-md-12 js-force-ids-form-group">
+                      <label class="form-control-label ">
+                        {{ lbl.tags('caso_de_registro_existente',true) }}
+                        <span class="help-box" data-toggle="popover">
+                        </span>
+                      </label>
+
+
+                      <div class="input-group">
+                        <span class="ps-switch">
+                          <input id="typeImport_2" class="ps-switch" [(ngModel)]="typeImport"
+                            [ngModelOptions]="{standalone: true}" name="typeImport" value="2" checked="" type="radio">
+                          <label for="typeImport_2" style="margin-right: 50px;">{{ lbl.tags('agregar_registro',true) }}
+                          </label>
+
+                          <input id="typeImport_3" class="ps-switch" [(ngModel)]="typeImport"
+                            [ngModelOptions]="{standalone: true}" name="typeImport" value="3" type="radio">
+                          <label for="typeImport_3">{{ lbl.tags('saltar_registro',true) }} </label><span
+                            class="slide-button"></span></span></div>
+
+                    </div>
+                  </div>
+
+                </div>
+
+
+
+                <ng-container *ngIf="step == 3">
+                  <div class="col-md-12 form-group import">
+
+                    <div class="post_taxonomy">
+
+                      <table class="form-table" style="max-width:none;">
+
+
+                        <tbody>
+                          <tr>
+                            <td colspan="3" style="padding-bottom:20px;">
+
+                              <table style="width:100%;">
+                                <tbody>
+                                  <tr class="">
+                                    <td>
+                                      <div class="post_taxonomy" *ngIf="hasTaxonomy()">
+                                        <div class="input">
+                                          <input type="hidden" [(ngModel)]="taxonomyOptions.category" value="0">
+                                          <input type="checkbox" class="assign_post switcher"
+                                            [(ngModel)]="taxonomyOptions.category" id="tax_assing_category" value="1">
+                                          <label for="tax_assing_category">Opciones avanzadas de Categorías</label>
+                                        </div>
+                                        <div class="switcher-target-tax_assing_category"
+                                          *ngIf="taxonomyOptions.category > 0">
+                                          <div class="input sub_input">
+                                            <div class="input" *ngIf="false">
+                                              <input type="radio" [(ngModel)]="taxonomyOptions.tax_logic.category"
+                                                value="1" id="tax_logic_single_category" class="switcher" checked="1">
+                                              <label for="tax_logic_single_category">Cada Entrada solo tiene un
+                                                Categoría</label>
+                                              <div *ngIf="taxonomyOptions.tax_logic.category == 1"
+                                                class="switcher-target-tax_logic_single_category sub_input"
+                                                style="display: block;">
+                                                <input type="hidden" name="term_assing[category]" value="0">
+                                                <input type="checkbox" [(ngModel)]="taxonomyOptions.tax_logic.category"
+                                                  name="term_assing[category]" checked="1"
+                                                  title="Asignar un entrada a la taxonomía." value="1">
+                                                <input type="text" class="widefat single_xpath_field"
+                                                  [(ngModel)]="taxonomyOptions.tax_single_xpath.category"
+                                                  name="tax_single_xpath[category]" value="" style="width:50%;">
+                                                <div class="input tax_is_full_search_single" style="margin: 10px 0;">
+                                                  <input type="hidden" name="tax_is_full_search_single[category]"
+                                                    value="0">
+                                                  <input type="checkbox"
+                                                    [(ngModel)]="taxonomyOptions.tax_is_full_search_single.category"
+                                                    id="tax_is_full_search_single_category" class="switcher"
+                                                    name="tax_is_full_search_single[category]" value="1">
+                                                  <label for="tax_is_full_search_single_category">Intente coincidir
+                                                    términos a un Categorías hijo existente</label>
+                                                  <div
+                                                    class="switcher-target-tax_is_full_search_single_category sub_input"
+                                                    style="display: block;">
+                                                    <div class="input tax_assign_to_one_term_single"
+                                                      style="margin: 10px 0;">
+                                                      <input type="hidden"
+                                                        name="tax_assign_to_one_term_single[category]" value="0">
+                                                      <input type="checkbox"
+                                                        [(ngModel)]="taxonomyOptions.tax_assign_to_one_term_single.category"
+                                                        id="tax_assign_to_one_term_single_category"
+                                                        name="tax_assign_to_one_term_single[category]" value="1">
+                                                      <label for="tax_assign_to_one_term_single_category">Solamente
+                                                        asigne Entradas al importado Categoría, no a la jerarquía
+                                                        entera</label>
+                                                      <a class="wpallimport-help" style="position:relative; top: -1px;"
+                                                        original-title="Por defecto todas las categorías que están por encima de la categoría coincidente será también asignada a la entrada. Si esta habilitado, solamente la categoría importada será asignada a la entrada.">?</a>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+
+                                            <div *ngIf="false" class="input">
+                                              <input type="radio" [(ngModel)]="taxonomyOptions.tax_logic.category"
+                                                name="tax_logic[category]" value="2" id="tax_logic_multiple_category"
+                                                class="switcher">
+                                              <label for="tax_logic_multiple_category">Cada Entrada tiene multiple
+                                                Categorías</label>
+                                              <div *ngIf="taxonomyOptions.tax_logic.category == 2"
+                                                class="switcher-target-tax_logic_multiple_category sub_input">
+                                                <input type="hidden" name="multiple_term_assing[category]" value="0">
+                                                <input type="checkbox"
+                                                  [(ngModel)]="taxonomyOptions.multiple_term_assing.category"
+                                                  name="multiple_term_assing[category]" checked="checked"
+                                                  title="Asignar un entrada a la taxonomía." value="1">
+                                                <input type="text"
+                                                  [(ngModel)]="taxonomyOptions.tax_multiple_xpath.category"
+                                                  class="widefat multiple_xpath_field"
+                                                  name="tax_multiple_xpath[category]" value="" style="width:50%;">
+                                                <label>Separado por</label>
+                                                <input type="text" class="small tax_delim"
+                                                  [(ngModel)]="taxonomyOptions.tax_multiple_delim.category"
+                                                  name="tax_multiple_delim[category]" value=",">
+                                                <div class="input tax_is_full_search_multiple" style="margin: 10px 0;">
+                                                  <input type="hidden" name="tax_is_full_search_multiple[category]"
+                                                    value="0">
+                                                  <input type="checkbox"
+                                                    [(ngModel)]="taxonomyOptions.tax_is_full_search_multiple.category"
+                                                    id="tax_is_full_search_multiple_category" class="switcher"
+                                                    name="tax_is_full_search_multiple[category]" value="1">
+                                                  <label for="tax_is_full_search_multiple_category">Intente coincidir
+                                                    términos a un Categorías hijo existente</label>
+                                                  <div
+                                                    class="switcher-target-tax_is_full_search_multiple_category sub_input">
+                                                    <div class="input tax_assign_to_one_term_multiple"
+                                                      style="margin: 10px 0;">
+                                                      <input type="hidden"
+                                                        name="tax_assign_to_one_term_multiple[category]" value="0">
+                                                      <input type="checkbox"
+                                                        [(ngModel)]="taxonomyOptions.tax_assign_to_one_term_multiple.category"
+                                                        id="tax_assign_to_one_term_multiple_category"
+                                                        name="tax_assign_to_one_term_multiple[category]" value="1">
+                                                      <label for="tax_assign_to_one_term_multiple_category">Solamente
+                                                        asigne Entradas al importado Categoría, no a la jerarquía
+                                                        entera</label>
+                                                      <a class="wpallimport-help" style="position:relative; top: -1px;"
+                                                        original-title="Por defecto todas las categorías que están por encima de la categoría coincidente será también asignada a la entrada. Si esta habilitado, solamente la categoría importada será asignada a la entrada.">?</a>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="input">
+                                              <input type="radio" [(ngModel)]="taxonomyOptions.tax_logic.category"
+                                                name="tax_logic[category]" value="3"
+                                                id="tax_logic_hierarchical_category" class="switcher">
+                                              <label for="tax_logic_hierarchical_category">Entradas tienen jerarquía
+                                                (padre/hijo) Categorías (ejemplo: Deportes &gt; Golf &gt; Clubs &gt;
+                                                Palos)</label>
+                                              <div class="switcher-target-tax_logic_hierarchical_category sub_input"
+                                                *ngIf="taxonomyOptions.tax_logic.category == 3">
+                                                <div class="input" *ngIf="false">
+                                                  <input type="hidden" name="tax_hierarchical_logic_entire[category]"
+                                                    value="0">
+                                                  <input type="checkbox"
+                                                    [(ngModel)]="taxonomyOptions.tax_hierarchical_logic_entire.category"
+                                                    name="tax_hierarchical_logic_entire[category]" value="1"
+                                                    id="hierarchical_logic_entire_category" class="switcher">
+                                                  <label for="hierarchical_logic_entire_category">Un elemento en mi
+                                                    archivo contiene la jerarquía entera (ejemplo, usted tiene un
+                                                    elemento con valor = Deportes &gt; Golf &gt; Clubs &gt;
+                                                    Palos)</label>
+                                                  <div
+                                                    class="switcher-target-hierarchical_logic_entire_category sub_input"
+                                                    *ngIf="taxonomyOptions.tax_hierarchical_logic_entire.category == 1"
+                                                    style="margin-left: 20px; padding-left: 20px; display: block;">
+                                                    <ul class="tax_hierarchical_logic no-margin">
+
+                                                      <li class="dragging"
+                                                        *ngFor="let item of taxonomyOptions.tax_hierarchical_assing.category">
+                                                        <div style="position:relative;">
+                                                          <input type="hidden"
+                                                            name="tax_hierarchical_assing[category][0]" value="0">
+                                                          <input type="checkbox" class="assign_term"
+                                                            name="tax_hierarchical_assing[category][0]"
+                                                            checked="checked" title="Asignar un entrada a la taxonomía."
+                                                            value="1">
+                                                          <input type="text" [(ngModel)]="item.value"
+                                                            class="widefat hierarchical_xpath_field"
+                                                            name="tax_hierarchical_xpath[category][]" value="">
+                                                          <a class="icon-item remove-ico" style="top:8px;"> <i
+                                                              class=" fa fa-trash"></i> </a>
+                                                        </div>
+                                                      </li>
+
+                                                    </ul>
+                                                    <label>Separado por</label>
+                                                    <input type="text" class="small tax_delim"
+                                                      name="tax_hierarchical_delim[category]" value=">">
+                                                    <div class="input">
+                                                      <input type="hidden"
+                                                        name="tax_hierarchical_last_level_assign[category]" value="0">
+                                                      <input type="checkbox"
+                                                        [(ngModel)]="taxonomyOptions.tax_hierarchical_last_level_assign.category"
+                                                        id="tax_hierarchical_last_level_assign_category"
+                                                        name="tax_hierarchical_last_level_assign[category]" value="1">
+                                                      <label for="tax_hierarchical_last_level_assign_category">Solamente
+                                                        asigne Entradas al término de nivel inferior en la
+                                                        jerarquía</label>
+                                                    </div>
+                                                    <div class="input">
+                                                      <input type="hidden"
+                                                        name="is_tax_hierarchical_group_delim[category]" value="0">
+                                                      <input type="checkbox"
+                                                        id="is_tax_hierarchical_group_delim_category"
+                                                        name="is_tax_hierarchical_group_delim[category]" value="1"
+                                                        class="switcher">
+                                                      <label for="is_tax_hierarchical_group_delim_category">Separar
+                                                        grupos de jerarquía vía simbolos</label>
+                                                      <div
+                                                        class="switcher-target-is_tax_hierarchical_group_delim_category sub_input">
+                                                        <label>Separado por</label>
+                                                        <input type="text" class="small tax_delim"
+                                                          name="tax_hierarchical_group_delim[category]" value="|">
+                                                      </div>
+                                                    </div>
+
+
+                                                  </div>
+                                                </div>
+                                                <div class="input">
+                                                  <input type="hidden" name="tax_hierarchical_logic_manual[category]"
+                                                    value="0">
+                                                  <input type="checkbox"
+                                                    [(ngModel)]="taxonomyOptions.tax_hierarchical_logic_manual.category"
+                                                    name="tax_hierarchical_logic_manual[category]" value="1"
+                                                    id="hierarchical_logic_manual_category" class="switcher">
+                                                  <label for="hierarchical_logic_manual_category">Diseñe manualmente la
+                                                    jerarquía con arrastrar y soltar</label>
+                                                  <div
+                                                    class="switcher-target-hierarchical_logic_manual_category sub_input"
+                                                    *ngIf="taxonomyOptions.tax_hierarchical_logic_manual.category == 1">
+                                                    <p style="margin-bottom: 10px;">Drag the <img
+                                                        src="https://bergner.com.ve/banana/wp-content/plugins/wp-all-import/static/img/drag.png"
+                                                        class="wpallimport-drag-icon"> to the right to create a child,
+                                                      drag up and down to re-order.</p>
+
+
+                                                    <ol class="sortable no-margin ui-sortable"
+                                                      style="margin-left: 20px;">
+
+                                                      <li id="item_1"
+                                                        *ngFor="let mylist of taxonomyOptions.tax_hierarchical_logic_manual.list, let i = index"
+                                                        class="dragging"
+                                                        style="position: relative; left: 0px; top: 0px;">
+
+                                                        <div class="drag-element ui-sortable-handle">
+
+                                                          <!-- <button class="btn" (click)="setFather(i,mylist)" *ngIf="i != 0 && mylist.father_position == null" ><i class="fa fa-arrow-right"></i></button> -->
+                                                          <!-- <button class="btn" *ngIf="i != 0 && mylist.father_position != null"><i class="fa fa-arrow-left"></i></button> -->
+                                                          <!-- <input type="checkbox" class="assign_term" checked="checked" title="Asignar un entrada a la taxonomía."> -->
+                                                          <input type="text" dnd-droppable
+                                                            (onDropSuccess)="taxonomydnd($event,mylist )"
+                                                            [(ngModel)]="mylist.value" class="widefat xpath_field"
+                                                            value="">
+                                                          <a class="icon-item remove-ico" *ngIf="i != 0 "
+                                                            (click)="removeRowTaxHierarchicalLogicManual(i)"
+                                                            style="top:8px;"> <i class=" fa fa-trash"></i> </a>
+                                                        </div>
+                                                      </li>
+
+
+                                                    </ol>
+                                                    <!-- <input type="hidden" class="hierarhy-output" name="post_taxonomies[category]" value="[{&quot;item_id&quot;:&quot;1&quot;,&quot;left&quot;:2,&quot;right&quot;:7,&quot;parent_id&quot;:null,&quot;xpath&quot;:&quot;&quot;,&quot;assign&quot;:true},{&quot;item_id&quot;:&quot;2&quot;,&quot;left&quot;:3,&quot;right&quot;:6,&quot;parent_id&quot;:&quot;1&quot;,&quot;xpath&quot;:&quot;&quot;,&quot;assign&quot;:true},{&quot;item_id&quot;:&quot;3&quot;,&quot;left&quot;:4,&quot;right&quot;:5,&quot;parent_id&quot;:&quot;2&quot;,&quot;xpath&quot;:&quot;&quot;,&quot;assign&quot;:true},{&quot;item_id&quot;:&quot;4&quot;,&quot;left&quot;:8,&quot;right&quot;:11,&quot;parent_id&quot;:null,&quot;xpath&quot;:&quot;&quot;,&quot;assign&quot;:true},{&quot;item_id&quot;:&quot;5&quot;,&quot;left&quot;:9,&quot;right&quot;:10,&quot;parent_id&quot;:&quot;4&quot;,&quot;xpath&quot;:&quot;&quot;,&quot;assign&quot;:true}]"> -->
+
+                                                    <!-- <div class="input" style="margin-left:17px;">
+                                                          <label>Separado por</label>
+                                                          <input type="text" class="small tax_delim" name="tax_manualhierarchy_delim[category]" value=",">
+                                                        </div> -->
+                                                    <a (click)="addrowTaxHierarchicalLogicManual()"
+                                                      class="icon-item add-new-ico">Add Another Row</a>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+
+
+
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+                    </div>
+
+                  </div>
+                </ng-container>
+
+                <div *ngIf="step == 4" class="col-md-12  importsBody">
+
+
+
+
+
+                  <!-- <div *ngIf="data != undefined && data.length > 0 " class="col-md-12"  >
+                              <div style="margin-top: 50px;  " >
+                                  <table class="table-responsive tableImport" >
+                                    <thead style="">
+                                      <tr>
+
+                                            <th *ngFor="let header of guideMigration;" >
+
+                                                <label><span>{{header.columnName}}</span></label>
+                                                <select name="type" class="form-control" [(ngModel)]="header.column" [ngModelOptions]="{standalone: true}" (change)="selectColumn(header.column)" >
+
+                                                      <optgroup *ngFor="let table of tables"
+                                                              label= {{table}} >
+                                                        <ng-container *ngFor="let column of selectColumns" >
+                                                          <option *ngIf="column.table_name === table" [disabled]="column.selected == 1"  [ngValue]="column" >
+                                                              {{column.description}} ({{column.type_data}}) <strong *ngIf="column.required == 1" >(Requerido)</strong>
+                                                          </option>
+                                                        </ng-container>
+                                                    </optgroup>
+                                                </select>
+
+                                              </th>
+
+                                      </tr>
+
+                                    </thead>
+                                    <tbody >
+                                      <tr *ngFor="let row of data">
+                                        <td *ngFor="let val of row" style="border: solid 1px; padding: 3px;">
+                                          {{val}}
+                                        </td>
+                                      </tr>
+
+                                    </tbody>
+
+                                    </table>
+                              </div>
+
+
+                            </div> -->
+
+                  <h4>Transfiere datos personalizados en Arrastrar y soltar</h4>
+                  <!-- <div class="row"> -->
+                  <!-- <div class="col-sm-3">
+                                <div class="panel panel-success">
+                                    <div class="panel-heading">Available to drag</div>
+                                    <div class="panel-body">
+                                        <div class="panel panel-default" dnd-draggable [dragEnabled]="true" [dragData]="transferData">
+                                            <div class="panel-body">
+                                                <div>Drag Me</div>
+                                                <div>{{transferData | json}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                  <!-- <div class="col-sm-12">
+                                <div dnd-droppable class="panel panel-info" (onDropSuccess)="transferDataSuccess($event)">
+                                    <div class="panel-heading">Place to drop (Items:{{receivedData.length}})</div>
+                                    <div class="panel-body">
+                                        <div [hidden]="!receivedData.length > 0" *ngFor="let data of receivedData">{{data | json}}</div>
+                                    </div>
+                                </div>
+                            </div> -->
+                  <div class="col-sm-12" *ngIf="!truncate && typeImport > 0">
+                    <div class="panel panel-info">
+                      <div class="panel-heading">{{ lbl.tags('llave_unica',true) }}</div>
+                      <div class="panel-body">
+                        <input id="unicKeyFilter" dnd-droppable (onDropSuccess)="selectUnicKey($event )" name="name"
+                          type="text" [(ngModel)]="unicKeyFilter" [ngModelOptions]="{standalone: true}"
+                          class="form-control">
+                        <small id="passwordHelp" *ngIf=" unicKeyFilter==null" class="text-danger">
+                          {{ lbl.tags('debe_seleccionar_un_campo',true) }}
+                        </small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-12" *ngIf="payrollTables.length > 0 ">
+                    <div *ngFor="let tableOfPayroll of payrollTables" class="panel panel-info">
+                      <ng-container *ngIf="tableOfPayroll != 'tablesInfo'">
+
+                        <div class="panel-heading">
+
+
+                          <h5 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse"
+                              [attr.data-target]="'#collapse_'+ tableOfPayroll" aria-expanded="true"
+                              aria-controls="collapseOne">
+                              <!-- {{lbl.tags(tableOfPayroll,true) }} -->
+                              {{tableOfPayroll}}
+                            </button>
+                          </h5>
+
+                        </div>
+                        <div id="collapse_{{tableOfPayroll}}" class="collapse panel-body"
+                          [attr.aria-labelledby]="'heading_'+tableOfPayroll " data-parent="#accordion">
+                          <!-- <div [hidden]="!receivedData.length > 0" *ngFor="let data of receivedData">{{data | json}}</div> -->
+                          <div *ngFor="let column of payrollMap[tableOfPayroll]" class="col-md-12">
+
+                            <!-- <strong>{{lbl.tags(payroll[tableOfPayroll][column].tag, false, payroll["tablesInfo"][tableOfPayroll].id )}}</strong>: &nbsp; -->
+                            <div class="col-md-12"><a class="icon-item remove-ico" style="top:8px;"> <i
+                                  class=" fa fa-info" [title]="payroll[tableOfPayroll][column].description"></i> </a>
+                              <strong>{{payroll[tableOfPayroll][column].presentation_name}}</strong> </div>
+                            <div class="col-md-11">
+                              <input dnd-droppable
+                                (onDropSuccess)="transferDataSuccess($event, payroll[tableOfPayroll][column])"
+                                name="name" type="text"
+                                placeholder="{{lbl.tags(payroll[tableOfPayroll][column].tag, false, payroll['tablesInfo'][tableOfPayroll].id)}}"
+                                [(ngModel)]="payroll[tableOfPayroll][column].value"
+                                [ngModelOptions]="{standalone: true}" [disabled]="true"
+                                class="form-control payrollInput col-md-8">
+                            </div>
+
+                            <div class="col-md-1">
+                              <a class="icon-item remove-ico payrollInputTrash"
+                                *ngIf="payroll[tableOfPayroll][column].value != '' "
+                                (click)="payroll[tableOfPayroll][column].value = ''" style="top:8px;">
+                                <i class=" fa fa-trash"></i>
+                              </a>
+                            </div>
+
+
+                          </div>
+
+                        </div>
+
+                      </ng-container>
+
+
+
+
+                    </div>
+                  </div>
+
+
+
+
+
+                  <!-- </div> -->
+
+
+                </div>
+
+
+                <div *ngIf="step == 5" class="col-md-12  importsBody">
+
+                  <div class="col-sm-12">
+                    <div class="panel panel-info">
+                      <div class="panel-heading"> {{ lbl.tags('rangos_de_importacion',true) }}</div>
+                      <div class="panel-body">
+                        <input id="initIn" name="name" type="number" min="1" max="{{data.length}}" value="1"
+                          (change)="endIn = data.length  " [(ngModel)]="initIn" [ngModelOptions]="{standalone: true}"
+                          class="form-control">
+                        <small id="passwordHelp" *ngIf=" 1==1" class="text-danger">
+                          Must be 8-20 characters long.
+                        </small>
+
+                        <input id="endIn" *ngIf="initIn != null && initIn > 0" value="{{data.length}}" name="name"
+                          type="number" min="{{initIn + 1}}" max="{{data.length}}" [(ngModel)]="endIn"
+                          [ngModelOptions]="{standalone: true}" class="form-control">
+                        <small id="passwordHelp" *ngIf=" 1==1" class="text-danger">
+                          Must be 8-20 characters long.
+                        </small>
+                      </div>
+                    </div>
+                    <button type="button" class="btn btn-success" *ngIf="!notpayroll" (click)="savePayroll()">
+                      {{ lbl.tags('guardar_planilla',true) }}</button>
+                  </div>
+
+
+
+
+                </div>
+
+
+              </div>
+            </div>
+
+          </div>
+          <div class="col-md-4 ">
+            <div class=" import">
+
+              <div class="row">
+                <div class="col-xs-12">
+                  <h2 class="page-header">
+                    <i class="fa fa-list"></i> {{ lbl.tags('campos_disponibles',true) }}
+                  </h2>
+                </div>
+                <!-- /.col -->
+              </div>
+              <div class="card-body">
+                <div class="tag" *ngIf="data != undefined && data.length > 0 " style="top: 127px;">
+                  <div>
+
+                    <div class="title">
+                      <!--h3>Elementos</h3-->
+                      <div class="navigation">
+                        <a class="icon-item remove-ico" style="top:8px;">
+                          <!-- <i class=" fa fa-trash" ></i> -->
+                          <i class="far fa-arrow-left"></i>
+                        </a>
+                        <strong>
+                          <!-- (change)="validateHeaders()" -->
+                          <input type="text" [(ngModel)]="indextag" [ngModelOptions]="{standalone: true}" value=" 1 "
+                            name="tagno" class="tagno">
+                        </strong>
+                        <span class="out_of"> de <strong class="pmxi_count">{{data.length}}</strong></span>
+                        <a class="icon-item remove-ico" style="top:8px;">
+                          <!-- <i class=" fa fa-trash" ></i> -->
+                          <i class="far fa-arrow-right"></i>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="wpallimport-xml resetable" style="max-height: 749px;">
+
+                      <pre
+                        *ngFor="let header of headers;">{{header}} : {{(jsonImport[indextag][header] === undefined )? "":jsonImport[indextag][header]}}</pre>
+
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-info" (click)="backStep()">{{ lbl.tags('anterior',true) }}</button> -->
+        <button type="button" class="btn btn-default" (click)="closeModal()"
+          data-dismiss="modal">{{ lbl.tags('cerrar',true) }}</button>
+        <!-- <button type="button" class="btn btn-primary"  (click)="sendMigration()" >{{ lbl.tags('enviar',true) }}</button> -->
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+
+  <ngx-loading [show]="loading"></ngx-loading> -->
+</div><!-- /.modal -->

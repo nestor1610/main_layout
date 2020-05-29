@@ -1,0 +1,59 @@
+<div id="login-container" class="container-fluid d-flex justify-content-center align-items-center">
+    <div class="login-box col-lg-6 col-11 d-lg-flex justify-content-lg-center">
+        <!-- LEFT SIDE LOGIN CONTAINER -->
+        <div class="login-box__left col-lg-6 col-12 py-lg-4 px-lg-4 py-2 px-2">
+            <h1 class="h2 text-center mb-2">Bienvenido</h1>
+            <!-- <p class="h6 text-center mb-3">Ingrese sus datos para registrarse y ser parte de nuestra gran comunidad</p> -->
+
+            <!-- DIV DE LOS BOTONES SOCIALES -->
+            <!-- <div class="col-12 d-lg-flex justify-content-between p-0"> -->
+                <!-- Butón Google -->
+                <!-- <div class="col-lg-6 col-12 p-0 mr-2 mb-lg-0 mb-3">
+                    <button class="btn btn-outline-secondary btn-block p-1">
+                        <i class="fab fa-google"></i> Google
+                    </button>
+                </div> -->
+
+                <!-- Botón Facebook  -->
+                <!-- <div class="col-lg-6 col-12 p-0">
+                    <button class="btn btn-outline-secondary btn-block p-1">
+                        <i class="fab fa-facebook-square"></i> Facebook
+                    </button>
+                </div>
+            </div> -->
+
+            <hr class="hr-text text-center small" data-content="Ingresa tus datos para comenzar el proceso de registro" />
+            <form action="">
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-user-plus"></i></span>
+                    </div>
+                    <input [(ngModel)]="register.first_name" id="first_name" name="first_name" type="text" aria-label="First name" placeholder="Nombres" class="form-control" required>
+                    <input [(ngModel)]="register.last_name" id="last_name" name="last_name" type="text" aria-label="Last name" placeholder="Apellidos" class="form-control" required> 
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1"><i class="far fa-envelope"></i></span>
+                    </div>
+                    <input [(ngModel)]="register.email" id="email" name="email" mail type="email" class="form-control" placeholder="Correo Electrónico" aria-label="email"
+                        aria-describedby="basic-addon1" required>
+                </div>
+                <!-- <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1"><i class="fas fa-lock"></i></span>
+                    </div>
+                    <input assword type="password" class="form-control" placeholder="Contraseña" aria-label="password"
+                        aria-describedby="basic-addon1">
+                </div> -->
+                <button [disabled]="NotNull" (click)="validateEmail()" type="submit" class="btn btn-primary btn-block mt-lg-0 mt-3">REGISTRATE <i class="fas fa-user-plus"></i></button>
+            </form>
+            <hr>
+            <p class="text-center small">¿Ya tienes una cuenta?<span><a class="text-decoration-none" routerLink="/authentication/login"> Inicia Sesión</a></span></p>
+        </div>
+        <!-- RIGHT SIDE LOGIN CONTAINER -->
+        <div class="login-box__right col-lg-6">
+            <img src="../../../../../assets/img/svg/undraw_wall_post_83ul.svg" alt="Imagen de Registro" class="right-img d-none d-lg-block">
+        </div>
+    </div>
+</div>

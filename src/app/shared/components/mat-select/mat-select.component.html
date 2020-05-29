@@ -1,0 +1,54 @@
+<!-- Si es select multiple -->
+<ng-container *ngIf="multiple">
+  <!-- Si las opciones tienen hijos -->
+  <mat-form-field *ngIf="children">
+    <mat-select multiple [placeholder]="placeholder" [disabled]="disabled" [(ngModel)]="value" [required]="required"
+      (ngModelChange)="updateChanges()">
+      <ng-container *ngFor="let option of options">
+        <mat-optgroup [hidden]="show_only_this && option.id != parent_id" [label]="option[key]">
+          <mat-option (click)="_emitOption(child)" *ngFor="let child of option[key_children]" [value]="child.id">
+            {{ child[key] }}
+          </mat-option>
+        </mat-optgroup>
+      </ng-container>
+    </mat-select>
+  </mat-form-field>
+  <!-- Si las opciones no tienen hijos -->
+  <mat-form-field *ngIf="!children">
+    <mat-select multiple [placeholder]="placeholder" [disabled]="disabled" [(ngModel)]="value" [required]="required"
+      (ngModelChange)="updateChanges()">
+      <mat-option [hidden]="show_only_this && option.id != parent_id" (click)="_emitOption(option)"
+        *ngFor="let option of options" [value]="option.id">
+        {{ option[key] }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</ng-container>
+<!-- Si el select es simple -->
+<ng-container *ngIf="!multiple">
+  <!-- Si las opciones tienen hijos -->
+  <mat-form-field *ngIf="children">
+    <mat-select [placeholder]="placeholder" [disabled]="disabled" [(ngModel)]="value" [required]="required"
+      (selectionChange)="_emitOption()" (ngModelChange)="updateChanges()">
+      <mat-option [value]="null">-</mat-option>
+      <ng-container *ngFor="let option of options">
+        <mat-optgroup [hidden]="show_only_this && option.id != parent_id" [label]="option[key]">
+          <mat-option *ngFor="let child of option[key_children]" [value]="child.id">
+            {{ child[key] }}
+          </mat-option>
+        </mat-optgroup>
+      </ng-container>
+    </mat-select>
+  </mat-form-field>
+  <!-- Si las opciones no tienen hijos -->
+  <mat-form-field *ngIf="!children">
+    <mat-select [placeholder]="placeholder" [disabled]="disabled" [(ngModel)]="value" [required]="required"
+      (selectionChange)="_emitOption()" (ngModelChange)="updateChanges()">
+      <mat-option [value]="null">-</mat-option>
+      <mat-option [hidden]="show_only_this && option.id != parent_id" *ngFor="let option of options"
+        [value]="option.id">
+        {{ option[key] }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</ng-container>

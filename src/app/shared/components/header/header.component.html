@@ -1,0 +1,18 @@
+<header class="container-fluid">
+    <div class="row d-flex align-items-center h-100">   
+        <div class="col-md-3 col-12">
+            <app-brand-logo></app-brand-logo>
+        </div>
+        <div class="col-md-5 col-12">
+            <i class="material-icons md-24 far fa-calendar-alt" matTooltip="Calendario" matTooltipClass="tooltip-style"></i>
+            <i class="material-icons md-24 far fa-envelope" matTooltip="Email" matTooltipClass="tooltip-style"></i>
+            <i class="material-icons md-24 far fa-list-alt" matTooltip="Tareas" matTooltipClass="tooltip-style"></i>
+        </div>
+        <div class="col-md-4 col-12 d-flex align-items-center justify-content-end">
+            <i class=" material-icons md-24 fas fa-expand" *ngIf="!isFullScreen" (click)="openFullscreen()" matTooltip="Modo Full Screen" matTooltipClass="tooltip-style"></i>
+            <i class="material-icons md-24 fas fa-compress" *ngIf="isFullScreen" (click)="closeFullscreen()" matTooltip="Salir Modo Full Screen" matTooltipClass="tooltip-style"></i>
+            <i class="mr-5 material-icons md-24 far far fa-bell" matTooltip="Notificaciones" matTooltipClass="tooltip-style"></i>
+            <app-avatar (openModalEvent)="getModalEvent()"></app-avatar>
+        </div>
+    </div>
+</header>

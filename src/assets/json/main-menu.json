@@ -1,0 +1,129 @@
+{
+    "menu": "nombre del menu",
+    "item-menu": [
+      {
+        "type": "tittle",
+        "icon": "",
+        "label": "",
+        "url": "",
+        "child": false,
+        "pos": 0
+      },
+      {
+        "type": "divider",
+        "icon": "",
+        "label": "",
+        "url": "",
+        "child": false,
+        "pos": 0
+      },
+      {
+        "type": "link",
+        "icon": "",
+        "label": "",
+        "url": "",
+        "child": false,
+        "pos": 0
+      },
+      {
+        "type": "link",
+        "icon": "",
+        "label": "",
+        "url": "",
+        "child": false,
+        "pos": 0
+      },
+      {
+        "type": "link",
+        "icon": "",
+        "label": "",
+        "url": "",
+        "child": false,
+        "pos": 0,
+        "subitem-invoice": [
+          {
+            "type": "invoice",
+            "icon": "expand_more",
+            "label": "",
+            "url": "",
+            "child": true,
+            "pos": 0
+          },
+          {
+            "type": "divider",
+            "icon": "",
+            "label": "",
+            "url": "",
+            "child": false,
+            "pos": 0
+          },
+          {
+            "type": "link",
+            "icon": "List invoice",
+            "label": "chevron_right",
+            "url": "25",
+            "child": false,
+            "pos": 0
+          },
+          {
+            "type": "link",
+            "icon": "chevron_right",
+            "label": "Add invoice",
+            "url": "26",
+            "child": false,
+            "pos": 0
+          }
+        ]
+      },
+      {
+        "type": "link",
+        "icon": "arrow_upward",
+        "label": "Share",
+        "url": "34",
+        "child": false,
+        "pos": 0,
+        "subitem-content": [
+          {
+            "type": "tittle",
+            "icon": "expand_more",
+            "label": "Content",
+            "url": "",
+            "child": true,
+            "pos": 0
+          },
+          {
+            "type": "divider",
+            "icon": "",
+            "label": "",
+            "url": "",
+            "child": false,
+            "pos": 0
+          },
+          {
+            "type": "link",
+            "icon": "chevron_right",
+            "label": "Customer",
+            "url": "",
+            "child": true,
+            "pos": 0
+          },
+          {
+            "type": "link",
+            "icon": "chevron_right",
+            "label": "Contact",
+            "url": "",
+            "child": true,
+            "pos": 0
+          }
+        ]
+      },
+      {
+        "type": "link",
+        "icon": "arrow_upward",
+        "label": "cancel",
+        "url": "",
+        "child": false,
+        "pos": 0
+      }
+    ]
+  }

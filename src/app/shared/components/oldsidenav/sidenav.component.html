@@ -1,0 +1,12 @@
+<mat-sidenav-container>
+  <!-- Cuando entra o sale el puntero del mouse ejecuta onSinenavToggle() -->
+  <mat-sidenav (mouseover)="onSinenavToggle()" (mouseout)="onSinenavToggle()" mode="side" #sidenav opened>
+    <!-- Los parametro Input son los elementos del left menu y para abrir o cerrar el menu con animaciones -->
+    <app-left-menu [elements]="elementsNav" [sideNavState]="onSideNavChange" [linkText]="linkText"></app-left-menu>
+  </mat-sidenav>
+  <!-- Usa la animacion onMainContentChange para mover el contenido -->
+  <mat-sidenav-content [@onMainContentChange]="onSideNavChange ? 'open': 'close'">
+    <!-- Componente content -->
+    <!-- <app-content></app-content> -->
+  </mat-sidenav-content>
+</mat-sidenav-container>

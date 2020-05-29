@@ -1,0 +1,184 @@
+<div id="login-container" class="container-fluid d-flex justify-content-center align-items-center">
+    <div class="login-box col-lg-8 col-11 d-lg-flex justify-content-lg-center">
+        <!-- LEFT SIDE LOGIN CONTAINER -->
+        <div class="login-box__left col-lg-6 col-12 py-lg-4 px-lg-4 py-2 px-2">
+            <h1 class="h2 text-center mb-2">Creación de la Cuenta</h1>
+            <hr class="hr-text text-center small"
+                data-content="Completa el formulario para comenzar el proceso de creación de la cuenta" />
+
+            <!-- <button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
+                {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
+            </button> -->
+
+            <mat-horizontal-stepper #stepper>
+                <mat-step>
+                    <form class="was-validated">
+                        <ng-template matStepLabel>Datos de la cuenta</ng-template>
+                        <div class="input-group my-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-user-plus"></i></span>
+                            </div>
+                            <input [(ngModel)]="prospect.first_name" name="first_name" id="first_name" type="text"
+                                aria-label="First name" placeholder="Nombre" class="form-control" required>
+                            <input [(ngModel)]="prospect.last_name" name="last_name" id="last_name" type="text"
+                                aria-label="Last name" placeholder="Apellido" class="form-control" required>
+                            <div class="invalid-feedback">El nombre y el apellido son requeridos</div>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-building"></i></span>
+                            </div>
+                            <input [(ngModel)]="prospect.company_name" name="company_name" id="company_name" type="text"
+                                aria-label="Company name" placeholder="Compañia" class="form-control" required>
+                            <div class="invalid-feedback">Favor indique el nombre de la compañia</div>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                            </div>
+                            <textarea [(ngModel)]="prospect.address" class="form-control" name="address" id="address"
+                                rows="1" required placeholder="Dirección"></textarea>
+                            <div class="invalid-feedback">
+                                Por favor indique una dirección válida.
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-globe-americas"></i></span>
+                            </div>
+                            <select [(ngModel)]="prospect.country_id" id="country_id" name="country_id" (change)="getStates(prospect.country_id)"
+                                class="form-control" required>
+                                <option [value]="null">País...</option>
+                                <option *ngFor="let country of countries" [value]="country.id">{{country.text}}</option>
+                            </select>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-5">
+                                <select [(ngModel)]="prospect.state_id" id="state_id" name="state_id" (change)="getCities(prospect.state_id)"
+                                    class="form-control" required>
+                                    <option [value]="null">Estado...</option>
+                                    <option *ngFor="let state of states" [value]="state.id">{{state.text}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <select [(ngModel)]="prospect.city_id" id="city_id" name="city_id" class="form-control"
+                                    required>
+                                    <option [value]="null">Ciudad...</option>
+                                    <option *ngFor="let city of cities" [value]="city.id">{{city.text}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <input [(ngModel)]="prospect.postal" type="text" class="form-control" id="postal"
+                                    name="postal" placeholder="Cod. Postal">
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-mobile-alt"></i></span>
+                            </div>
+                            <input [(ngModel)]="prospect.phone" type="text" class="form-control" id="phone" name="phone"
+                                type="text" aria-label="mobilephone" placeholder="Teléfono" class="form-control"
+                                required>
+                        </div>
+                        <hr>
+                        <div>
+                            <button class="bnt btn-primary btn-sm" matStepperNext>Siguiente <i
+                                    class="far fa-arrow-alt-circle-right"></i></button>
+                        </div>
+                    </form>
+                </mat-step>
+
+                <mat-step>
+                    <form class="was-validated">
+                        <ng-template matStepLabel>Instancia de datos</ng-template>
+                        <div class="input-group mt-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-at"></i></span>
+                            </div>
+                            <input (change)="validateDns()" [(ngModel)]="prospect.workspace" name="workspace" id="workspace" type="text"
+                                aria-label="workspace" placeholder="Espacio de trabajo" class="form-control"
+                                required pattern="[a-z]{6,12}" title="6 a 12 caracteres en minúsculas sin espacio">
+                            <div class="invalid-feedback">Identifica tu espacio de trabajo, de 6 a 12 carateres de largo
+                                sin espacios. Ej. banana</div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="form-check mr-2">
+                                <input class="form-check-input" type="radio" id="banana_server" name="banana_server"
+                                    [value]="true" [(ngModel)]="prospect.use_banana_server"> Banana Server
+                                <!-- <label class="form-check-label mr-2" for="bnnserver">
+                                    Banana Server
+                                </label> -->
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" id="other_server" name="other_server"
+                                    [value]="false" [(ngModel)]="prospect.use_banana_server"> Servidor Propio
+                                <!-- <label class="form-check-label" for="another">
+                                    Servidor propio
+                                </label> -->
+                            </div>
+                        </div>
+
+                        <div *ngIf="!prospect.use_banana_server">
+
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-link"></i></span>
+                                </div>
+                                <input [(ngModel)]="prospect.url_database" name="url_database" id="url_database"
+                                    type="text" ng-show="another==option2" aria-label="Instancia" placeholder="URL"
+                                    class="form-control" required>
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user-lock"></i></span>
+                                </div>
+                                <input [(ngModel)]="prospect.user_database" name="user_database" id="user_database"
+                                    type="text" aria-label="userinstance" placeholder="Usuario" class="form-control"
+                                    required>
+                                <input [(ngModel)]="prospect.password_database" name="password_database"
+                                    id="password_database" type="password" aria-label="passwordinstance"
+                                    placeholder="Password" class="form-control" required>
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <button [disabled]="dataBaseNotNull" (click)="validateConection()"
+                                    class="btn btn-outline-secondary btn-sm">Probar conexión <i
+                                        class="fas fa-check-double"></i></button>
+                            </div>
+
+                        </div>
+                        <hr>
+                        <div class="col-12 d-lg-flex justify-content-between p-0">
+                            <!-- <div class="input-group mb-3"> -->
+                            <button class="bnt btn-primary btn-sm" matStepperPrevious><i
+                                    class="far fa-arrow-alt-circle-left"></i> Anterior &nbsp;</button>
+                            <button [disabled]="validate_dns" class="bnt btn-primary btn-sm" matStepperNext>Siguiente <i
+                                    class="far fa-arrow-alt-circle-right"></i></button>
+                            <!-- </div> -->
+                        </div>
+                    </form>
+                </mat-step>
+
+                <mat-step>
+                    <ng-template matStepLabel>Hecho</ng-template>
+                    <button [disabled]="prospectNotNull" (click)="generateBD()" class="btn btn-primary btn-block">CREAR CUENTA <i class="fas fa-database"></i></button>
+                    <hr>
+                    <div class="col-12 d-lg-flex justify-content-between mt-3 mb-5 p-0">
+                        <button class="bnt btn-primary btn-sm" matStepperPrevious><i class="far fa-arrow-alt-circle-left"></i> Anterior &nbsp;</button>
+                        <button class="bnt btn-primary btn-sm" (click)="stepper.reset()">Reiniciar <i class="fas fa-reply"></i></button>
+                    </div>
+                </mat-step>
+            </mat-horizontal-stepper>
+        </div>
+
+        <!-- RIGHT SIDE LOGIN CONTAINER -->
+        <div class="login-box__right col-lg-6">
+            <img src="../../../../../assets/img/svg/undraw_wall_post_83ul.svg" alt="Imagen de Registro"
+                class="right-img d-none d-lg-block">
+        </div>
+    </div>
+</div>

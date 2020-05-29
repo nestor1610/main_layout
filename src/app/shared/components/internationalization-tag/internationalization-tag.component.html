@@ -1,0 +1,121 @@
+<!-- <button mat-raised-button class="btn btn-info btn-flat col-md-12" (click)="openLanguageTagListModal()" >
+  languages Tags
+</button> -->
+
+<button [title]="lbl.tags('etiquetas', true)" type="button" class="btn  btn-default btn-flat"
+    (click)="openLanguageTagListModal()">
+    <i class="fa fa-gears"></i>
+</button>
+
+
+<div class="modal fade" [id]="'LanguageTagList'+modalUniqueID">
+    <ngx-loading [show]="loading"></ngx-loading>
+    <div class="modal-dialog login animated">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+            </div>
+            <div class="modal-body">
+
+                <div class="card ">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title mt-0"> Language Tag List</h4>
+                        <app-mat-select [options]="auxTables" [placeholder]="'count paginate'" [(ngModel)]="table"
+                            (onSelect)="getElements()">
+                        </app-mat-select>
+                    </div>
+                    <div class="card-body">
+                        <button mat-raised-button class="btn btn-info btn" (click)="goToCreate()">Agregar</button>
+                        <div class="table-responsive tableTags">
+                            <table class="table table-hover">
+                                <thead class="">
+                                    <th>
+                                        option
+                                    </th>
+                                    <th>
+                                        key
+                                    </th>
+                                    <th>
+                                        Value
+                                    </th>
+                                    <th>
+                                        lenguage
+                                    </th>
+
+
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let tagUnique of all_tags; let i = index">
+                                        <td>
+                                            <button mat-raised-button class="btn btn-warning btn-sm"
+                                                (click)="goToEdit(tagUnique.id)"><i class="fa fa-pencil"></i></button>
+                                            <button (click)="delete(tagUnique, i)" mat-raised-button
+                                                class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+
+                                        </td>
+                                        <td>
+                                            {{tagUnique.key}}
+                                        </td>
+                                        <td>
+                                            {{tagUnique.value}}
+                                        </td>
+                                        <td>
+                                            {{tagUnique.iso}}
+                                        </td>
+
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal " [id]="'tagCrud'+modalUniqueID">
+    <ngx-loading [show]="loadingCrud"></ngx-loading>
+    <div class="modal-dialog login animated">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>{{titleCrud}}</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+            </div>
+            <div class="modal-body col-md-12 tableTags">
+
+                <div class="col-md-12">
+                    <h5>Tag</h5>
+                    <input type="text" class="form-control" placeholder="Name" [(ngModel)]="tag.tag"
+                        [ngModelOptions]="{standalone: true}">
+                </div>
+
+                <h4>Languages</h4>
+                <div class="col-md-12" *ngFor="let item of childTags">
+                    <h5>{{item.lenguage}}</h5>
+                    <input type="text" class="form-control" placeholder="value" [(ngModel)]="item.description"
+                        [ngModelOptions]="{standalone: true}">
+                </div>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button mat-raised-button *ngIf="!editable" class="btn btn-info btn" (click)="create()">Guardar</button>
+                <button mat-raised-button *ngIf="editable" class="btn btn-info btn"
+                    (click)="update()">Actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>

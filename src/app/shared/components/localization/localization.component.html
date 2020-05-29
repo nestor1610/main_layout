@@ -1,0 +1,45 @@
+<div class="row">
+  <div class="col-12" *ngIf="access.getValue( getIdColumnByProperty('address') ,'R')">
+    <div>
+      <mat-form-field>
+        <mat-label>{{lbl.tags('direccion')}}</mat-label>
+        <textarea matInput [readonly]="access.disabled(read_only, getIdColumnByProperty('address'), type_view)"
+          [(ngModel)]="localization.address" [placeholder]="lbl.tags('direccion')">
+          </textarea>
+      </mat-form-field>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-3" *ngIf="access.getValue(getIdColumnByProperty('country_id'),'R')">
+    <div>
+      <app-mat-select [(ngModel)]="localization.country_id" [options]="countries" [placeholder]="lbl.tags('pais')"
+        [disabled]="access.disabled(read_only, getIdColumnByProperty('country_id'), type_view)"
+        (onSelect)="getStates($event.id)"></app-mat-select>
+    </div>
+  </div>
+  <div class="col-3" *ngIf="access.getValue( getIdColumnByProperty('state_id'),'R')">
+    <div>
+      <app-mat-select [(ngModel)]="localization.state_id" [options]="states" [placeholder]="lbl.tags('estado')"
+        [disabled]="access.disabled(read_only, getIdColumnByProperty('state_id'), type_view)"
+        (onSelect)="getCities($event.id)"></app-mat-select>
+    </div>
+  </div>
+  <div class="col-3" *ngIf="access.getValue( getIdColumnByProperty('city_id'),'R')">
+    <div>
+      <app-mat-select [(ngModel)]="localization.city_id" [options]="cities" [placeholder]="lbl.tags('ciudad')"
+        [disabled]="access.disabled(read_only, getIdColumnByProperty('city_id'), type_view)"></app-mat-select>
+    </div>
+  </div>
+  <div class="col-3" *ngIf="access.getValue( getIdColumnByProperty('postal'),'R')">
+    <mat-form-field>
+      <mat-label>{{lbl.tags('postal')}}</mat-label>
+      <input matInput [(ngModel)]="localization.postal" [ngModelOptions]="{standalone: true}" type="text"
+        [readonly]="access.disabled(read_only, getIdColumnByProperty('postal'), type_view)">
+      <button [disabled]="access.disabled(read_only, getIdColumnByProperty('postal'), type_view)" mat-button
+        *ngIf="localization.postal" matSuffix mat-icon-button aria-label="Clear" (click)="localization.postal = ''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+</div>

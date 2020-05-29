@@ -1,0 +1,196 @@
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Banana</title>
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		<base href="/">
+		<!-- <script src="https://js.pusher.com/4.3/pusher.min.js"></script> -->
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="icon" type="image/x-icon" href="favicon.ico">
+		<style>
+			html{
+				overflow: hidden !important ;
+			}
+				html, body {
+						background-color: #fff;
+						color: #636b6f;
+						font-family: 'Raleway', sans-serif;
+						font-weight: 100;
+						height: 100vh;
+						margin: 0;
+				}
+
+				.full-height {
+						height: 100vh;
+				}
+
+				.flex-center {
+						align-items: center;
+						display: flex;
+						justify-content: center;
+				}
+
+				.position-ref {
+						position: relative;
+				}
+
+				.top-right {
+						position: absolute;
+						right: 10px;
+						top: 18px;
+				}
+
+				.contentIndex {
+						text-align: center;
+				}
+
+				.title {
+						font-size: 84px;
+				}
+
+
+				.m-b-md {
+						margin-bottom: 30px;
+				}
+		</style>
+	</head>
+	<body style="background: linear-gradient(#e66465, #9198e5);">
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+          <a class="navbar-brand" href="#">BananaProWeb</a>
+          <!-- <li><a>{{ lbl.tags('registrar',true) }}</a></li> -->
+          <a class="navbar-brand" routerLink="/signin"> {{ lbl.tags('signin',true) }} </a>
+          <a class="navbar-brand" *ngIf="!is_log" routerLink="login"> {{ lbl.tags('login',true) }} </a>
+          <a class="navbar-brand" *ngIf="is_log" routerLink="app"> {{ lbl.tags('app',true) }} </a>
+				</div>
+
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<!-- <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+						<li><a href="#">Link</a></li>
+						<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="#">Action</a></li>
+							<li><a href="#">Another action</a></li>
+							<li><a href="#">Something else here</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="#">Separated link</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="#">One more separated link</a></li>
+						</ul>
+						</li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="#">Action</a></li>
+							<li><a href="#">Another action</a></li>
+							<li><a href="#">Something else here</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="#">Separated link</a></li>
+						</ul>
+						</li>
+					</ul>
+				</div>/.navbar-collapse -->
+			</div><!-- /.container-fluid -->
+		</nav>
+
+		<div class="container">
+				<div class="row">
+						<div class="col-12">
+								<img src="assets/img/logo2.jpg" alt="..." class="img-circle img-responsive center-block" style="margin-bottom: 50px;">
+						</div>
+						<div class="col-12">
+              <div class="jumbotron" style="background: cornsilk; margin-bottom: 50px;">
+                <h1>Bienvenido a Banana !</h1>
+                <!-- <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Modi numquam labore consectetur minus voluptas odit eum quibusdam atque necessitatibus molestiae, consequatur animi, consequuntur error repellendus, velit commodi. Voluptatum, harum voluptatem.</p>
+                <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p> -->
+              </div>
+						</div>
+				</div>
+		</div>
+
+		<!-- <div class="container" style="top: 12rem">
+				<div class="row">
+						<div class="col-sm-6 col-md-4">
+								<div class="thumbnail" >
+										<img src="assets/img/logo.jpg" alt="...">
+										<div class="caption">
+												<h3>Lorem ipsum dolor sit amet.</h3>
+												<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officiis deserunt in pariatur odio itaque optio!</p>
+												<p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+										</div>
+								</div>
+						</div>
+						<div class="col-sm-6 col-md-4">
+								<div class="thumbnail" >
+										<img src="assets/img/logo.jpg" alt="...">
+										<div class="caption">
+												<h3>Lorem ipsum dolor sit amet.</h3>
+												<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officiis deserunt in pariatur odio itaque optio!</p>
+												<p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+										</div>
+								</div>
+						</div>
+						<div class="col-sm-6 col-md-4">
+								<div class="thumbnail" >
+										<img src="assets/img/logo.jpg" alt="...">
+										<div class="caption">
+												<h3>Lorem ipsum dolor sit amet.</h3>
+												<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officiis deserunt in pariatur odio itaque optio!</p>
+												<p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+										</div>
+								</div>
+						</div>
+				</div>
+    </div> -->
+
+    <!-- <div  class="modal fade" id="LoginLandingModal" >
+      <div class="modal-dialog modal-dialog-centered login animated"  >
+        <div class="modal-content">
+          <div class="modal-body">
+            <form role="form">
+              <div class="input-group form">
+                <span class="input-group-addon" style="background: #eee" id="exampleInputEmail1">
+                  <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                </span>
+                <input type="email" [(ngModel)]="user.email" [ngModelOptions]="{standalone: true}" class="form-control" placeholder="Correo" aria-describedby="exampleInputEmail1">
+              </div>
+              <div class="input-group form">
+                <span class="input-group-addon" style="background: #eee" id="exampleInputPassword1">
+                  <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span>
+                </span>
+                <input type="password" [(ngModel)]="user.password" [ngModelOptions]="{standalone: true}" class="form-control" placeholder="Contraseña" aria-describedby="exampleInputPassword1">
+              </div>
+              <div class="checkbox form check">
+                <label>
+                <input type="checkbox" [(ngModel)]="remember" name="cb" id="cb"> Recordar
+                </label>
+              </div>
+              <div class="form check">
+                <span>¿Olvido su contraseña?</span>
+              </div>
+              <button type="submit" (click)="login()" class="btn btn-primary center-block boton">Ingresar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	</body>
+</html>
+

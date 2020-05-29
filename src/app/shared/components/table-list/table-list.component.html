@@ -1,0 +1,329 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div *ngIf="!kanban" class=" myTable ">
+  <div class="table-responsive table-wrapper-scroll-y">
+    <table class="table table-bordered table-hover table-striped  table-sm">
+      <thead class="myResposiveTableHead">
+        <tr>
+          <!-- <th >#</th> -->
+          <!-- <th *ngIf="col_option && !simple" class="text-center" >{{lbl.tags('opciones', true)}}</th> -->
+          <ng-container *ngFor="let column of columnHeaders">
+            <th class="text-center" *ngIf="column.visible == 1" (click)="orderBy(column)" style=" cursor: pointer; ">
+              {{ InternationalizationEnable ? lbl.tags(column.tag, (getTypeColumn(column) == 'options') ) : column.tag }}
+              <i class="{{ column.icon }}"></i></th>
+          </ng-container>
+        </tr>
+      </thead>
+      <tbody class="myScroll">
+        <span *ngIf="rows.length < 1">{{lbl.tags('sin_resultados', true)}}</span>
+        <tr class="myResposiveTableRow" *ngFor="let row of rows; let i = index">
+
+          <!-- <td class="myResposiveTableHead" [style.max-width]=" '30px'" [style.width]=" '30px'" >{{ init+i+1 }}</td> -->
+
+          <ng-container
+            *ngFor="let column of columnHeaders | paginate: { id: modalUniqueID, itemsPerPage: rowPerPag, currentPage: page, totalItems: totalReg  }">
+
+            <!-- Columna de opciones. DADA POR columnHeaders -->
+            <td class="myResposiveTable"
+              *ngIf="column.visible == 1 && (getTypeColumn(column) == 'options') && col_option && !simple"
+              [style.width]="column.width != null? column.width+'px' : '200px' "
+              [style.min-width]="column.width != null? column.width+'px' : '200px' ">
+              <!-- <td class="myResposiveTable" *ngIf="!simple" [style.width]=" editable? '180px': '90px'" [style.max-width]=" editable? '180px': '90px' "  [style.min-width]="editable? '180px': '90px'" > -->
+              <button *ngIf="withButtonEye" mat-raised-button [disabled]="!readBtnDisabled"
+                class="btn btn-success btn-flat btn-sm" (click)="emitViewEvent(row)">
+                <i class="fa fa-eye"></i>
+              </button>
+
+              <button *ngIf="(row.editable != undefined? !row.editable : true) && editable" mat-raised-button
+                [disabled]="!readBtnDisabled" class="btn btn-success btn-flat btn-sm" (click)="editRow(row,i)">
+                <i class="fa fa-pencil"></i>
+              </button>
+
+              <button *ngIf="!(row.editable != undefined? !row.editable : true)" class="btn btn-success btn-flat btn-sm"
+                (click)="save(row)">
+                <i class="fa fa-save"></i>
+              </button>
+
+              <button *ngIf="!(row.editable !== undefined && row.id === undefined? !row.editable : true)"
+                class="btn btn-success btn-flat btn-sm" (click)="saveAndNew(row)">
+                <i class="fa fa-save"></i><i class="fa fa-plus"></i>
+              </button>
+
+              <button *ngIf="with_archived && row.archived == 1" (click)="archivate(row,0)" mat-raised-button
+                class="btn btn-warning btn-flat btn-sm" [style.max-width]="'55px'" [title]="lbl.tags('archivar', true)">
+                <i class="fa fa-folder"></i>
+              </button>
+
+              <button *ngIf="with_archived && row.archived == 0" (click)="archivate(row,1)" mat-raised-button
+                class="btn btn-info btn-flat btn-sm" [style.max-width]="'55px'" [title]="lbl.tags('archivar', true)">
+                <i class="fa fa-folder-open"></i>
+              </button>
+
+              <button *ngIf="!(row.editable != undefined? !row.editable : true) && editable  "
+                (click)="removeRow(i,row.id)" mat-raised-button class="btn btn-danger btn-flat btn-sm"
+                [style.max-width]="'55px'">
+                <i class="fa fa-trash"></i>
+              </button>
+
+              <button *ngIf="!(row.editable != undefined? !row.editable : true) && editable "
+                (click)="discardEdit(row, i)" mat-raised-button class="btn btn-warning btn-flat btn-sm"
+                [style.max-width]="'55px'">
+                <i class="fa fa-times"></i>
+              </button>
+            </td>
+            <!-- FILAS SOLO DE LECTURA -->
+            <td class="clickable myResposiveTable"
+              *ngIf="(column.visible == 1 && !(getTypeColumn(column) == 'options')) && !editable"
+              [style.width]="column.width != null? column.width+'px' : '200px' "
+              [style.min-width]="column.width != null? column.width+'px' : '200px' "
+              (click)="editIndex =='row'? update(row):update(row[editIndex])">
+              <div class="reflowImg"><strong><span>{{ lbl.tags(column.tag)}}</span></strong></div>
+              <div [ngSwitch]="getTypeColumn(column)">
+                <div *ngSwitchCase="'text'">
+                  <p>{{ getValue(row, column) }}</p>
+                </div>
+                <div *ngSwitchCase="'id'">
+                  <p>{{ getValue(row, column) }}</p>
+                </div>
+                <div *ngSwitchCase="'number_format'">
+                  <p style="text-align:right;">{{ getValue(row, column) | numberMask:setting }}</p>
+                </div>
+                <div *ngSwitchCase="'boolean'">
+                  <i *ngIf="getValue(row, column) == 1 " class="text-center fa fa-check"></i>
+                </div>
+                <div *ngSwitchCase="'barcode'">
+                  <!-- <ngx-barcode [bc-format]="column.column_param" [bc-height]="15" [bc-value]="row[column.key]"
+                    [bc-background]="'transparent'" [bc-element-type]="'img'" [bc-display-value]="true"></ngx-barcode> -->
+                </div>
+                <div *ngSwitchCase="'image'">
+                  <img class="profile-user-img o_kanban_image_inner_pic img-responsive img-circle"
+                    [src]="getImagen(row)" (error)="updateUrlImg(row)" alt="Product picture">
+                </div>
+                <div *ngSwitchCase="'color'">
+                  <!-- <input [disabled]="true" [cpOutputFormat]="'hex'" [value]="row[column.key]"
+                    [style.background]="row[column.key]" [(colorPicker)]="row[column.key]"> -->
+                  <input matInput [disabled]="true" [(ngModel)]="row[column.key]" type="color">
+                </div>
+                <div *ngSwitchCase="'date'">
+                  <p>{{ getValue(row, column) }}</p>
+                </div>
+                <div *ngSwitchCase="'only_view'">
+                  <p>{{ getValue(row, column) }}</p>
+                </div>
+              </div>
+            </td>
+            <!-- FIN DE FILAS SOLO DE LECTURA -->
+
+            <!-- FILAS EDITABLES -->
+            <td class="clickable myResposiveTable"
+              *ngIf="(column.visible == 1 && !(getTypeColumn(column) == 'options')) && editable"
+              [style.width]="column.width != null? column.width+'px' : '200px' "
+              [style.min-width]="column.width != null? column.width+'px' : '200px' " (click)="editRow(row,i)"
+              (keyup)="keyboard($event.keyCode, row, i)">
+              <div class="reflowImg"><strong><span>{{ lbl.tags(column.tag) }}</span></strong></div>
+              <div [ngSwitch]="getTypeColumn(column)">
+                <div *ngSwitchCase="'text'">
+                  <input #InputInList class="inputTable" *ngIf="row.editable !== undefined? row.editable : false"
+                    type="text" [readonly]="false" [(ngModel)]="row[column.key]"
+                    [placeholder]="lbl.tags('escribe_aqui',true)">
+                  <p *ngIf="row.editable !== undefined? !row.editable : true">{{ getValue(row, column) }}</p>
+                </div>
+                <div *ngSwitchCase="'id'">
+                  <p>{{ getValue(row, column) }}</p>
+                </div>
+                <div *ngSwitchCase="'boolean'">
+                  <label class="form-check-label" *ngIf="row.editable !== undefined? row.editable : false">
+                    <input class="form-check-input" #InputInList [disabled]="false" type="checkbox"
+                      [checked]="row[column.key] ==1? 1:0" [(ngModel)]="row[column.key]"
+                      [ngModelOptions]="{standalone: true}" value="">
+                    <span class="form-check-sign">
+                      <span class="check"></span>
+                    </span>
+                  </label>
+                  <div *ngIf="row.editable !== undefined? !row.editable : true">
+                    <i *ngIf="getValue(row, column) == 1 " class="text-center fa fa-check"></i>
+                  </div>
+                </div>
+                <div *ngSwitchCase="'barcode'">
+                  <input #InputInList class="inputTable" *ngIf="row.editable !== undefined? row.editable : false"
+                    type="text" [readonly]="false" [(ngModel)]="row[column.key]"
+                    [placeholder]="lbl.tags('escribe_aqui',true)">
+                  <!-- <ngx-barcode *ngIf="row.editable !== undefined? !row.editable : true" [bc-element-type]="'img'"
+                    [bc-format]="column.column_param" [bc-height]="15" [bc-value]="row[column.key]"
+                    [bc-background]="'transparent'" [bc-display-value]="true">
+                  </ngx-barcode> -->
+                </div>
+                <div *ngSwitchCase="'image'">
+                  <img #InputInList *ngIf="row.editable !== undefined? !row.editable : true"
+                    class="profile-user-img img-responsive img-circle"
+                    [src]=" getUrlImage(row[column.key]) || 'assets/img/noimage.png' " alt="Product picture">
+                </div>
+                <div *ngSwitchCase="'color'">
+                  <!-- <input #InputInList *ngIf="row.editable !== undefined? row.editable : false" [disabled]="false"
+                    [cpOutputFormat]="'hex'" [value]="row[column.key]" [style.background]="row[column.key]"
+                    [(colorPicker)]="row[column.key]">
+                  <input *ngIf="row.editable !== undefined? !row.editable : true" [disabled]="true"
+                    [cpOutputFormat]="'hex'" [value]="row[column.key]" [style.background]="row[column.key]"
+                    [(colorPicker)]="row[column.key]"> -->
+                  <input matInput #InputInList *ngIf="row.editable !== undefined? row.editable : false" [disabled]="false"
+                    [(ngModel)]="row[column.key]" type="color">
+                  <input matInput #InputInList *ngIf="row.editable !== undefined? !row.editable : true" [disabled]="true" [(ngModel)]="row[column.key]" type="color">
+                </div>
+                <div *ngSwitchCase="'date'">
+                  <input #InputInList class="inputTable" *ngIf="row.editable !== undefined? row.editable : false"
+                    type="date" [readonly]="false" [(ngModel)]="row[column.key]"
+                    [placeholder]="lbl.tags('escribe_aqui',true)">
+                  <p *ngIf="row.editable !== undefined? !row.editable : true">{{ getValue(row, column) }}</p>
+                </div>
+                <div *ngSwitchCase="'only_view'">
+                  <p>{{ getValue(row, column) }}</p>
+                </div>
+              </div>
+            </td>
+            <!-- FIN DE FILAS EDITABLES -->
+
+          </ng-container>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="box-footer myFooter " *ngIf="(rows.length < 1)">
+    <!-- <div class="col-md-6" *ngIf="why_migration">
+      <app-migration [table]="table" ></app-migration>
+    </div> -->
+  </div>
+  <div class="box-footer myFooter " *ngIf="!(rows.length < 1)|| 1==1">
+    <div class="col-md-4">Showing {{init+1}} to {{fin}} of {{totalReg}} entries</div>
+
+    <!-- <button mat-raised-button class="btn btn-success btn-sm" [disabled]='page == 1' (click)="backPage(page)" ><i class="fa fa-angle-left"></i></button>
+    <button mat-raised-button class="btn btn-success btn-sm"  [disabled]='page == totalPages' (click)="nextPage(page)" ><i class="fa fa-angle-right"></i></button> -->
+    <div class="col-md-4">
+      <pagination-controls id="{{modalUniqueID}}" (pageChange)="goToPage($event)"></pagination-controls>
+    </div>
+
+    <div class="col-md-4">
+      <div class="col-md-6">
+        <app-mat-select [options]="paginateOptions" [(ngModel)]="rowPerPag"
+          (onSelect)="changeRowPerPages()">
+        </app-mat-select>
+
+      </div>
+      <div class="col-md-4" *ngIf="why_migration">
+        <app-migration [table]="table"></app-migration>
+      </div>
+      <!-- <button mat-raised-button class="btn btn-info btn-sm pull-right"  *ngIf="editable"  (click)="newRow()" ><i class="fa fa-plus"></i></button> -->
+      <button [title]="lbl.tags('columnas', true)" mat-raised-button class="btn btn-success btn-sm pull-right"
+        (click)="openModal()"><i class="fa fa-cogs"></i></button>
+    </div>
+
+    <!-- <input  name="name" type="text" class="form-control" [(ngModel)]="rowPerPag.id" (change)="changeRowPerPage()" [ngModelOptions]="{standalone: true}"> -->
+  </div>
+</div>
+
+<div *ngIf="kanban">
+  <div class="o_kanban_view o_res_partner_kanban o_kanban_ungrouped">
+    <div *ngFor="let row of rows; let i = index" (click)="editIndex =='row'? update(row):update(row[editIndex])"
+      class="oe_kanban_global_click o_kanban_record_has_image_fill o_res_partner_kanban o_kanban_record">
+      <!-- <a (click)="newRow()" > -->
+      <div class="o_kanban_image_fill_left d-none d-md-block">
+        <img class="o_kanban_image_inner_pic" alt="Azure Interior" [src]="getImagen(row)" (error)="updateUrlImg(row)">
+        <!-- <img class="o_kanban_image_inner_pic" alt="Azure Interior" [src]=" getUrlImage(row[column.key]) || 'assets/img/noimage.png' "  > -->
+      </div>
+
+
+      <div class="oe_kanban_details">
+        <ul>
+
+          <ng-container
+            *ngFor="let column of columnHeaders | paginate: { id: modalUniqueID, itemsPerPage: rowPerPag, currentPage: page, totalItems: totalReg  }">
+
+            <li class="" *ngIf="column.boolean != 1 && column.visible == 1 && !editable && column.image === undefined">
+              <span>{{ getValue(row, column) }}</span></li>
+            <li class="" *ngIf="column.boolean == 1 && column.visible == 1 && !editable && getValue(row, column) == 1 ">
+              <div class="reflow"><strong><span>{{ lbl.tags(column.tag)}}</span></strong></div>
+            </li>
+
+          </ng-container>
+        </ul>
+        <div class="oe_kanban_partner_links"></div>
+      </div>
+
+      <!-- </a> -->
+    </div>
+  </div>
+  <div class="box-footer myFooter " *ngIf="!(rows.length < 1)">
+    <div class="col-md-4">Showing {{init+1}} to {{fin}} of {{totalReg}} entries</div>
+    <!-- <button mat-raised-button class="btn btn-success btn-sm" [disabled]='page == 1' (click)="backPage(page)" ><i class="fa fa-angle-left"></i></button>
+    <button mat-raised-button class="btn btn-success btn-sm"  [disabled]='page == totalPages' (click)="nextPage(page)" ><i class="fa fa-angle-right"></i></button> -->
+    <div class="col-md-4">
+      <pagination-controls id="{{modalUniqueID}}" (pageChange)="goToPage($event)"></pagination-controls>
+    </div>
+    <div class="col-md-4">
+      <div class="col-md-6">
+        <app-mat-select [options]="paginateOptions" [(ngModel)]="rowPerPag"
+          (onSelect)="changeRowPerPages()">
+        </app-mat-select>
+      </div>
+      <!-- <button mat-raised-button class="btn btn-info btn-sm pull-right"  *ngIf="editable"  (click)="newRow()" ><i class="fa fa-plus"></i></button> -->
+      <button [title]="lbl.tags('columnas', true)" mat-raised-button class="btn btn-success btn-sm pull-right"
+        (click)="openModal()"><i class="fa fa-cogs"></i></button>
+    </div>
+    <!-- <input  name="name" type="text" class="form-control" [(ngModel)]="rowPerPag.id" (change)="changeRowPerPage()" [ngModelOptions]="{standalone: true}"> -->
+  </div>
+</div>
+
+
+<div class="modal fade" id="columnsConfModal{{modalUniqueID}}">
+  <div class="modal-dialog login animated">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="row">
+          <div class="col-md-11">
+            <!-- <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 text-left">
+              <button  [title]="lbl.tags('refrescar_lista', true)" class="btn boton primary btn-sm">
+                <i class="fa fa-redo-alt"></i>
+              </button>
+            </div> -->
+          </div>
+          <div class="col-md-1">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+              &times;
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-body col-md-12">
+        <div class="columnConf">
+          <ul cdkDropList (cdkDropListDropped)="drop($event)">
+            <li cdkDrag *ngFor='let column of columnHeaders'>
+              <div class="row">
+                <div class="col-md-4">
+                  <span>{{ lbl.tags(column.tag, (getTypeColumn(column) == 'options'))}}</span>
+                </div>
+                <div class="col-md-4">
+                  <div class="checkboxList ">
+                    <label>
+                      <span>visible</span>
+                      <input type="checkbox" [checked]="column.visible == 1"
+                        (change)="$event.target.checked? (column.visible =  1) : (column.visible = 0)">
+                    </label>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="">
+                    <input type="number" [(ngModel)]="column.width">px
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button mat-raised-button class="btn btn-success btn" (click)="changeHeadersSetting()"
+          data-dismiss="modal">{{ lbl.tags('guardar',true)}}</button>
+        <button mat-raised-button class="btn btn-info btn" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>

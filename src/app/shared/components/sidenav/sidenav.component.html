@@ -1,16 +1,12 @@
-<mat-sidenav-container #sidenavContainer >
-  <mat-sidenav mode="side" opened
-    ><app-navigation
-      class="pcoded-navbar"
-      [elementsNav]="elementsNav"
-      [ngClass]="{
-        'navbar-collapsed': navCollapsed,
-        'theme-horizontal': this.gradientConfig['layout'] === 'horizontal',
-        'mob-open': navCollapsedMob
-      }"
-      (onNavMobCollapse)="navMobClick()"
-    ></app-navigation>
+<mat-sidenav-container>
+  <!-- Cuando entra o sale el puntero del mouse ejecuta onSinenavToggle() -->
+  <mat-sidenav (mouseover)="onSinenavToggle()" (mouseout)="onSinenavToggle()" mode="side" #sidenav opened>
+    <!-- Los parametro Input son los elementos del left menu y para abrir o cerrar el menu con animaciones -->
+    <app-left-menu [elements]="elementsNav" [sideNavState]="onSideNavChange" [linkText]="linkText"></app-left-menu>
   </mat-sidenav>
-  <mat-sidenav-content>
+  <!-- Usa la animacion onMainContentChange para mover el contenido -->
+  <!-- Si la animacion [@onMainContentChange] se deshabilita, el menu se sobrepone encima del contenido. Como el modo over -->
+  <mat-sidenav-content [@onMainContentChange]="onSideNavChange ? 'open': 'close'">
+    Content
   </mat-sidenav-content>
 </mat-sidenav-container>

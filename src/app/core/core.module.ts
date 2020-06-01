@@ -5,9 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { TextMaskModule } from 'angular2-text-mask';
 import { NgxLoadingModule } from 'ngx-loading';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { PerfectScrollbarConfigInterface, PerfectScrollbarModule, PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { MaterialModule } from '../modules/material/material.module';
-import { NavigationItem } from '../shared/components/sidenav/navigation/navigation';
 import { AccessService } from './services/access/access.service';
 import { AttributesService } from './services/attributes/attributes.service';
 import { AuditService } from './services/audit/audit.service';
@@ -44,11 +42,6 @@ import { UsersService } from './services/users/users.service';
 import { WebServicesService } from './services/web-services/web-services.service';
 import { WebSocketService } from './services/web-socket/web-socket.service';
 
-const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-  suppressScrollX: true
-};
-
-
 @NgModule({
   imports: [
     CommonModule,
@@ -64,7 +57,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     NgxPaginationModule,
     TextMaskModule,
     MaterialModule,
-    PerfectScrollbarModule
   ],
   providers: [
     ModulesService,
@@ -104,11 +96,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     SeriesService,
     GenerateFormService,
     WebServicesService,
-    {
-      provide: PERFECT_SCROLLBAR_CONFIG,
-      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
-    },
-    NavigationItem
   ]
 })
 export class CoreModule { }

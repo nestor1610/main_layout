@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationItem } from 'src/app/shared/components/sidenav/navigation/navigation';
 
 @Component({
   selector: 'app-main',
@@ -9,13 +8,41 @@ import { NavigationItem } from 'src/app/shared/components/sidenav/navigation/nav
 export class MainComponent implements OnInit {
   elementsNav: Array<any>;
 
-  constructor(public nav: NavigationItem) { }
+  constructor() { }
 
   ngOnInit(): void {
     this.elementsNav = [
+      // Elementos tipo link
       { id: null, type: 'item', title: 'Inbox', url: '/some-link', icon: 'inbox' },
       { id: null, type: 'item', title: 'Starred', url: '/some-link', icon: 'star' },
-      { id: null, type: 'item', title: 'Send email', url: '/some-link', icon: 'send' }
+      // Elemento tipo titulo
+      { id: null, type: 'title', title: 'Titulo a mostra. No debe ser clickeable', url: 'El link es inutil en este tipo', icon: 'send' },
+      // Elemento tipo separador
+      { id: null, type: 'separator', title: 'Linea separadora', url: 'El link es inutil en este tipo', icon: 'send' },
+      // Elemento tipo collapse. Contenedor de otros elementos
+      {
+        id: null, type: 'collapse', title: 'Elemento del menu con otros elementos dentro', url: 'El link es inutil en este tipo', icon: 'send', childrens: [
+          // Elementos tipo link
+          { id: null, type: 'item', title: 'Hijo 1', url: '/some-link', icon: 'inbox' },
+          { id: null, type: 'item', title: 'Hijo 2', url: '/some-link', icon: 'star' },
+          // Elemento tipo collapse. Contenedor de otros elementos
+          {
+            id: null, type: 'collapse', title: 'Hijo 3', url: 'El link es inutil en este tipo', icon: 'send', childrens: [
+              // Elementos tipo link
+              { id: null, type: 'item', title: 'Hijo 1', url: '/some-link', icon: 'inbox' },
+              { id: null, type: 'item', title: 'Hijo 2', url: '/some-link', icon: 'star' },
+              // Elemento tipo collapse. Contenedor de otros elementos
+              {
+                id: null, type: 'collapse', title: 'Hijo 3', url: 'El link es inutil en este tipo', icon: 'send', childrens: [
+                  // Elementos tipo link
+                  { id: null, type: 'item', title: 'Hijo 1', url: '/some-link', icon: 'inbox' },
+                  { id: null, type: 'item', title: 'Hijo 2', url: '/some-link', icon: 'star' },
+                ]
+              }
+            ]
+          }
+        ]
+      }
     ];
   }
 
